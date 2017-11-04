@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Output Management'
@@ -18,8 +18,10 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.(png|svg|jpg|gif)$/, use: ['file-loader'] }
+        { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+        { test: /\.(png|svg|jpg|gif)$/, use: ['file-loader'] },
+        { test: /\.jsx?$/, use: ['babel-loader'], exclude: [/node_modules/, /public/] },
+        { test: /\.jsx?$/, loader: 'eslint-loader', include: path.resolve(process.cwd(), 'src'), enforce: 'pre' }
      ]
    }
 };
