@@ -1,6 +1,7 @@
 import './App.css';
 import React, { Component } from 'react';
-import printMe from '../../print';
+import Lists from '../Lists/Lists';
+import Requests from '../../requests';
 
 class App extends Component {
     constructor (props) {
@@ -9,21 +10,20 @@ class App extends Component {
             lists: null
         };
     }
-    handleClick = () => {
-        printMe().then((response) => {
+    handleClick1 = () => {
+        Requests.getLists().then((response) => {
             this.setState({ lists: response });
         });
+    };
+    handleClick2 = () => {
+        Requests.addList('new label from react');
     };
     render () {
         return (
             <div className='App'>
-                <button onClick={this.handleClick}>Press</button>
-                <p>Hello</p>
-                { this.state.lists ? this.state.lists.map((list) =>
-                    <div key={list.id} >
-                        <div>{list.label}</div>
-                    </div>
-                ) : null }
+                <button onClick={this.handleClick1}>Press</button>
+                <button onClick={this.handleClick2}>Press</button>
+                <Lists lists={this.state.lists}/>
             </div>
         );
     }
