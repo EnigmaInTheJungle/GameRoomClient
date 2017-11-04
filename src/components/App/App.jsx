@@ -1,24 +1,38 @@
 import './App.css';
+import {
+    BrowserRouter,
+    Link,
+    Route,
+    Switch
+} from 'react-router-dom';
 import React, { Component } from 'react';
+import Cookies from 'js-cookie';
 import Lists from '../Lists/Lists';
-import Requests from '../../requests';
+import SignIn from '../User/SignIn';
 
 class App extends Component {
     constructor (props) {
         super(props);
-        Requests.fillData({
+        Cookies.set('auth_token', {
             'access-token': 'DNREdWvGdA2f_eaj11BLtg',
             'client': 'fyiRhFMlVA8xe2NOu-5rAA',
             'uid': 'test@mail.com'
         });
-        this.state = {
-            lists: null
-        };
     }
     render () {
         return (
             <div className='App'>
-                <Lists lists={this.state.lists}/>
+                <BrowserRouter>
+                    <div>
+                        <Link to="/">Home</Link>{' '}
+                        <Link to="/sign_in">SignIn</Link>
+
+                        <Switch>
+                            <Route path="/sign_in" component={SignIn} />
+                            <Route path="/" component={Lists} />
+                        </Switch>
+                    </div>
+                </BrowserRouter>
             </div>
         );
     }
