@@ -6,23 +6,18 @@ import Requests from '../../requests';
 class App extends Component {
     constructor (props) {
         super(props);
+        Requests.fillData({
+            'access-token': 'DNREdWvGdA2f_eaj11BLtg',
+            'client': 'fyiRhFMlVA8xe2NOu-5rAA',
+            'uid': 'test@mail.com'
+        });
         this.state = {
             lists: null
         };
     }
-    handleClick1 = () => {
-        Requests.getLists().then((response) => {
-            this.setState({ lists: response });
-        });
-    };
-    handleClick2 = () => {
-        Requests.addList('new label from react');
-    };
     render () {
         return (
             <div className='App'>
-                <button onClick={this.handleClick1}>Press</button>
-                <button onClick={this.handleClick2}>Press</button>
                 <Lists lists={this.state.lists}/>
             </div>
         );

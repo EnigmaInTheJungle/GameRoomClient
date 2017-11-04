@@ -8,15 +8,19 @@ export default class Requests {
     }
 
     static getLists () {
-        const data = {
-            'access-token': 'DNREdWvGdA2f_eaj11BLtg',
-            'client': 'fyiRhFMlVA8xe2NOu-5rAA',
-            'uid': 'test@mail.com'
-        };
-        return axios.get('http://localhost:3000/v1/lists', {headers: data})
+        return axios.get('http://localhost:3000/v1/lists', {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response.data.data.lists);
+                }
+            });
+    }
+
+    static addList (label) {
+        return axios.post('http://localhost:3000/v1/lists', {label: label}, {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response);
                 }
             })
             .catch(function (error) {
@@ -24,13 +28,8 @@ export default class Requests {
             });
     }
 
-    static addList (label) {
-        const data = {
-            'access-token': 'DNREdWvGdA2f_eaj11BLtg',
-            'client': 'fyiRhFMlVA8xe2NOu-5rAA',
-            'uid': 'test@mail.com'
-        };
-        return axios.post('http://localhost:3000/v1/lists', {label: label}, {data})
+    static addTask (label, listId) {
+        return axios.post('http://localhost:3000/v1/lists/' + listId + '/tasks', {label: label}, {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
