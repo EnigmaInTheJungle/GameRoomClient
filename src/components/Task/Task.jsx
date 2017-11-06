@@ -1,4 +1,4 @@
-import './Task.css';
+import './Task.scss';
 import React, { Component } from 'react';
 import Requests from '../../requests';
 
@@ -29,12 +29,12 @@ class Task extends Component {
     render () {
         return (
             <div className='Task'>
-                <span>
-                    <input type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
-                    {this.props.task.content}
-                    <button onClick={this.onTaskDeleted}>X</button>
+                <input className='task-state' type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
+                <text className='task-content'>{this.props.task.content}</text>
+                <span className='task-buttons'>
                     <button onClick={this.onTaskUpped}>Up</button>
                     <button onClick={this.onTaskDowned}>Down</button>
+                    <button onClick={this.onTaskDeleted}>X</button>
                 </span>
             </div>
         );

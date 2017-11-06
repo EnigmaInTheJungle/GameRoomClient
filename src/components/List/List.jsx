@@ -1,4 +1,4 @@
-import './List.css';
+import './List.scss';
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import Requests from '../../requests';
@@ -29,12 +29,12 @@ class List extends Component {
         return (
             <div className='List'>
                 <div className='list-header'>
-                    <strong>{this.props.list.name}</strong>
-                    <button onClick={this.onDeleteListClick}>DeleteList</button>
+                    <text>{this.props.list.name}</text>
+                    <button onClick={this.onDeleteListClick}>X</button>
                 </div>
                 <div className='list-add-task'>
-                    <button onClick={this.handleClick}>New task</button>
                     <input type="text" className="inputField" onKeyUp={this.onNewTaskAdded}/>
+                    <button onClick={this.handleClick}>+</button>
                 </div>
                 <div className='list-tasks'>
                     { this.props.tasks ? this.props.tasks.map((task) =>

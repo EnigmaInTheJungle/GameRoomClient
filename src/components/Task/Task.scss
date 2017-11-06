@@ -1,0 +1,22 @@
+.Task {
+    padding: 5px;
+    background-image: url('../images/task-back.png');
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid gainsboro;
+    .task-content{
+        font-style: italic;
+        color: lightslategrey;
+        font-family: Monaco;
+        font-size: 20px;
+    }
+    .task-buttons{
+        button{
+            background-color: transparent;
+            border: none;
+        }
+    }
+    .task-state{
+        border: 1px solid gainsboro;
+    }
+}

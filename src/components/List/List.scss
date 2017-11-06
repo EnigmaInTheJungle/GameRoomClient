@@ -1,0 +1,29 @@
+.List {
+    margin: 100px;
+    .list-add-task{
+        display: flex;
+        justify-content: space-between;
+        input{
+            width: 100%;
+        }
+        button{
+            background: url('../images/list-new-task-button.png') no-repeat;
+            background-size: 100%;
+        }
+    }
+    .list-header{
+        background: url('../images/list-header.png') no-repeat;
+        background-size: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        text{
+            margin: auto;
+        }
+        button{
+            background-color: transparent;
+            border: none;
+        }
+    }
+}
+
