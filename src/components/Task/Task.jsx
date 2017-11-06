@@ -32,8 +32,8 @@ class Task extends Component {
                 <input className='task-state' type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
                 <text className='task-content'>{this.props.task.content}</text>
                 <span className='task-buttons'>
-                    <button onClick={this.onTaskUpped}>Up</button>
-                    <button onClick={this.onTaskDowned}>Down</button>
+                    <i className="arrow up" onClick={this.onTaskUpped}></i>
+                    <i className="arrow down" onClick={this.onTaskDowned}></i>
                     <button onClick={this.onTaskDeleted}>X</button>
                 </span>
             </div>

@@ -1,6 +1,5 @@
 .Task {
     padding: 5px;
-    background-image: url('../images/task-back.png');
     display: flex;
     justify-content: space-between;
     border: 1px solid gainsboro;
@@ -15,8 +14,37 @@
             background-color: transparent;
             border: none;
         }
+        .task-up-btn{
+            background: url('../images/task-down.png');
+            background-size: 100%;
+        }
+        .task-down-btn{
+            background: url('../images/task-up.png') no-repeat;
+            background-size: 100%;
+        }
+        i {
+            border: solid black;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+        }
+
+        .up {
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+            margin: 5px 5px auto;
+        }
+
+        .down {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            margin: 5px 5px auto;
+        }
     }
     .task-state{
         border: 1px solid gainsboro;
+    }
+    :hover{
+        background-color: bisque;
     }
 }
