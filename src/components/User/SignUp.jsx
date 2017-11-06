@@ -8,13 +8,15 @@ class SignIn extends Component {
     handleClick = () => {
         let email = this.refs.email.value;
         let password = this.refs.password.value;
-        Requests.signIn(email, password);
+        let passwordConfirmation = this.refs.pc.value;
+        Requests.signUp(email, password, passwordConfirmation);
     };
     render () {
         return (
             <div className='SignIn'>
                 <input name='email' type="email" placeholder="email" ref="email"/>
                 <input type="password" placeholder="password" ref="password"/>
+                <input type="password" placeholder="password confirmation" ref="pc"/>
                 <button onClick={this.handleClick}>Submit</button>
             </div>
         );
