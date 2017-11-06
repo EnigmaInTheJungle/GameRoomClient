@@ -65,4 +65,26 @@ export default class Requests {
                 }
             });
     }
+    static upTaskPosition (task) {
+        return axios.patch('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id + '/up', {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response);
+                }
+            })
+            .catch(function (error) {
+                return Promise.resolve(error);
+            });
+    }
+    static downTaskPosition (task) {
+        return axios.patch('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id + '/down', {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response);
+                }
+            })
+            .catch(function (error) {
+                return Promise.resolve(error);
+            });
+    }
 }
