@@ -15,7 +15,7 @@ class Task extends Component {
         return (
             <div className='Task'>
                 <span>
-                    <input type='checkbox' checked={this.props.task.is_down} onChange={this.isDownChanged}/>
+                    <input type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
                     {this.props.task.content}
                 </span>
             </div>
