@@ -14,8 +14,8 @@ class Lists extends Component {
         this.requestGetLists();
     }
     requestGetLists = () => {
-        Requests.getLists().then((responce) => {
-            this.setState({lists: responce});
+        Requests.getLists().then((response) => {
+            this.setState({lists: response});
         });
     };
     onAddListClick = () => {

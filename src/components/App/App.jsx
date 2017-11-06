@@ -13,11 +13,11 @@ import SignIn from '../User/SignIn';
 class App extends Component {
     constructor (props) {
         super(props);
-        Cookies.set('auth_token', {
+        Cookies.set('auth_token', JSON.stringify({
             'access-token': 'DNREdWvGdA2f_eaj11BLtg',
             'client': 'fyiRhFMlVA8xe2NOu-5rAA',
             'uid': 'test@mail.com'
-        });
+        }));
     }
     render () {
         return (

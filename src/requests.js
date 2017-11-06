@@ -3,14 +3,14 @@ import Cookies from 'js-cookie';
 
 export default class Requests {
     static getCredentials () {
-        return Cookies.get('auth_token');
+        return JSON.parse(Cookies.get('auth_token'));
     }
 
     static getLists () {
         return axios.get('http://localhost:3000/v1/lists', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response.data.lists);
+                    return Promise.resolve(response.data.data.lists);
                 }
             });
     }
