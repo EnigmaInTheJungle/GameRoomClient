@@ -57,4 +57,12 @@ export default class Requests {
                 return Promise.resolve(error);
             });
     }
+    static delTask (task) {
+        return axios.delete('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id, {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response.data.lists);
+                }
+            });
+    }
 }
