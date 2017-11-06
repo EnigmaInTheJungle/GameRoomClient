@@ -1,6 +1,6 @@
 import './List.css';
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import Requests from '../../requests';
 import Task from '../Task/Task';
 
@@ -8,8 +8,7 @@ class List extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            newTaskContent: '',
-            isUpdateRaised: false
+            newTaskContent: ''
         };
     }
     handleClick = () => {
@@ -21,10 +20,6 @@ class List extends Component {
         this.setState({
             newTaskContent: event.target.value});
     };
-    setInputText = (text) => {
-        this.setState({isUpdateRaised: true});
-        ReactDOM.findDOMNode(this).getElementsByClassName('inputField')[0].value = text;
-    };
     onDeleteListClick = () => {
         Requests.delList(this.props.list.id).then(() => {
             this.props.requestGetLists();
@@ -34,7 +29,7 @@ class List extends Component {
         return (
             <div className='List'>
                 <div className='list-header'>
-                    <span >{this.props.list.id} {this.props.list.name}</span>
+                    <strong>{this.props.list.name}</strong>
                     <button onClick={this.onDeleteListClick}>DeleteList</button>
                 </div>
                 <div className='list-add-task'>
@@ -43,7 +38,7 @@ class List extends Component {
                 </div>
                 <div className='list-tasks'>
                     { this.props.tasks ? this.props.tasks.map((task) =>
-                        <Task key = {task.id} content={task.content} setInputText={this.setInputText}/>
+                        <Task key = {task.id} task={task} requestGetLists={this.props.requestGetLists}/>
                     ) : null }
                 </div>
             </div>

@@ -46,4 +46,15 @@ export default class Requests {
                 return Promise.resolve(error);
             });
     }
+    static changeTaskState (task) {
+        return axios.patch('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id + '/check', {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response);
+                }
+            })
+            .catch(function (error) {
+                return Promise.resolve(error);
+            });
+    }
 }

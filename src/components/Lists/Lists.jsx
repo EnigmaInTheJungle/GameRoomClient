@@ -26,13 +26,13 @@ class Lists extends Component {
     render () {
         return (
             <div className='Lists'>
+                {this.state.lists ? this.state.lists.map((list) =>
+                    <List key={list.id} requestGetLists={this.requestGetLists} list={list} tasks={list.tasks}/>
+                ) : null}
                 <div className='list-buttons'>
                     <input type='text' ref='inputListNameField'/>
                     <button onClick={this.onAddListClick}>AddList</button>
                 </div>
-                {this.state.lists ? this.state.lists.map((list) =>
-                    <List key={list.id} requestGetLists={this.requestGetLists} list={list} tasks={list.tasks}/>
-                ) : null}
             </div>
         );
     }
