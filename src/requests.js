@@ -15,7 +15,14 @@ export default class Requests {
                 }
             });
     }
-
+    static delList (listId) {
+        return axios.delete('http://localhost:3000/lists/' + listId, {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response.data.lists);
+                }
+            });
+    }
     static addList (name) {
         return axios.post('http://localhost:3000/lists', {list: { name: name }}, {headers: this.data})
             .then((response) => {

@@ -19,14 +19,17 @@ class Lists extends Component {
         });
     };
     onAddListClick = () => {
-        Requests.addList('new label from react').then(() => {
+        Requests.addList(this.refs.inputListNameField.value).then(() => {
             this.requestGetLists();
         });
     };
     render () {
         return (
             <div className='Lists'>
-                <button onClick={this.onAddListClick}>AddList</button>
+                <div className='list-buttons'>
+                    <input type='text' ref='inputListNameField'/>
+                    <button onClick={this.onAddListClick}>AddList</button>
+                </div>
                 {this.state.lists ? this.state.lists.map((list) =>
                     <List key={list.id} requestGetLists={this.requestGetLists} list={list} tasks={list.tasks}/>
                 ) : null}
