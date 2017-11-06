@@ -1,3 +1,4 @@
+import './SignUp.scss';
 import React, { Component } from 'react';
 import Requests from '../../requests';
 
@@ -13,7 +14,7 @@ class SignIn extends Component {
     };
     render () {
         return (
-            <div className='SignIn'>
+            <div className='SignUp'>
                 <input name='email' type="email" placeholder="email" ref="email"/>
                 <input type="password" placeholder="password" ref="password"/>
                 <input type="password" placeholder="password confirmation" ref="pc"/>

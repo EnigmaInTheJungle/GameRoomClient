@@ -20,7 +20,7 @@ class App extends Component {
             <div className='App'>
                 <BrowserRouter>
                     <div>
-                        <Link to="/">Home</Link>{' '}
+                        <Link to="/">Home</Link>
                         <Link to="/sign_in">SignIn</Link>
                         <Link to="/sign_out">SignOut</Link>
                         <Link to="/sign_up">SignUp</Link>

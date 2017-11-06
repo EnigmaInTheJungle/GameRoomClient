@@ -59,7 +59,7 @@ export default class Requests {
         return axios.get('http://localhost:3000/v1/lists', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response.data.data.lists);
+                    return Promise.resolve(response.data.lists);
                 }
             });
     }
