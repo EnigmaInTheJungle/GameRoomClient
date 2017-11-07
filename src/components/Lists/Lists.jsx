@@ -27,7 +27,7 @@ class Lists extends Component {
         return (
             <div className='Lists'>
                 {this.state.lists ? this.state.lists.map((list) =>
-                    <List key={list.id} requestGetLists={this.requestGetLists} list={list} tasks={list.tasks}/>
+                    <List key={list.id} requestGetLists={this.requestGetLists} list={list}/>
                 ) : null}
                 <div className='list-buttons'>
                     <input type='text' ref='inputListNameField'/>

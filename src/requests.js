@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 
 export default class Requests {
     static Url = 'https://api-ornull-list.herokuapp.com/';
+    //  static Url = 'http://localhost:3000/';
     static getCredentials () {
         let cookie = Cookies.get('auth_token');
         if (cookie) {
@@ -60,7 +61,7 @@ export default class Requests {
         return axios.get(this.Url + 'v1/lists', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response.data.lists);
+                    return Promise.resolve(response.data);
                 }
             });
     }
@@ -77,6 +78,18 @@ export default class Requests {
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
+                }
+            })
+            .catch(function (error) {
+                return Promise.resolve(error);
+            });
+    }
+
+    static getTasks (listId) {
+        return axios.get(this.Url + 'v1/lists/' + listId + '/tasks', {headers: this.getCredentials()})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response.data);
                 }
             })
             .catch(function (error) {

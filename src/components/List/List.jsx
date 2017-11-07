@@ -8,7 +8,8 @@ class List extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            newTaskContent: ''
+            newTaskContent: '',
+            tasks: null
         };
     }
     handleClick = () => {
@@ -25,6 +26,11 @@ class List extends Component {
             this.props.requestGetLists();
         });
     };
+    componentWillMount () {
+        Requests.getTasks(this.props.list.id).then((response) => {
+            this.setState({tasks: response});
+        });
+    }
     render () {
         return (
             <div className='List'>
@@ -37,9 +43,11 @@ class List extends Component {
                     <button onClick={this.handleClick}>Add task</button>
                 </div>
                 <div className='list-tasks'>
-                    { this.props.tasks ? this.props.tasks.map((task) =>
-                        <Task key = {task.id} task={task} requestGetLists={this.props.requestGetLists}/>
-                    ) : null }
+                    {
+                        this.state.tasks ? this.state.tasks.map((task) =>
+                            <Task key = {task.id} task={task} requestGetLists={this.props.requestGetLists}/>
+                        ) : null
+                    }
                 </div>
             </div>
         );
