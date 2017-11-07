@@ -29,7 +29,7 @@ class List extends Component {
         return (
             <div className='List'>
                 <div className='list-header'>
-                    <text>{this.props.list.name}</text>
+                    <text>{this.props.list.label}</text>
                     <button onClick={this.onDeleteListClick}>X</button>
                 </div>
                 <div className='list-add-task'>
