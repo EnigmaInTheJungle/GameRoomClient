@@ -34,7 +34,7 @@ class List extends Component {
                 </div>
                 <div className='list-add-task'>
                     <input type="text" className="inputField" onKeyUp={this.onNewTaskAdded}/>
-                    <button onClick={this.handleClick}>+</button>
+                    <button onClick={this.handleClick}>Add task</button>
                 </div>
                 <div className='list-tasks'>
                     { this.props.tasks ? this.props.tasks.map((task) =>

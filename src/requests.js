@@ -8,7 +8,7 @@ export default class Requests {
     }
 
     static getLists () {
-        return axios.get('http://localhost:3000/lists', {headers: this.data})
+        return axios.get('http://localhost:3000/v1/lists', {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response.data.lists);
@@ -16,7 +16,7 @@ export default class Requests {
             });
     }
     static delList (listId) {
-        return axios.delete('http://localhost:3000/lists/' + listId, {headers: this.data})
+        return axios.delete('http://localhost:3000/v1/lists/' + listId, {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response.data.lists);
@@ -24,7 +24,7 @@ export default class Requests {
             });
     }
     static addList (name) {
-        return axios.post('http://localhost:3000/lists', {list: { name: name }}, {headers: this.data})
+        return axios.post('http://localhost:3000/v1/lists', {list: { name: name }}, {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
@@ -36,7 +36,7 @@ export default class Requests {
     }
 
     static addTask (content, listId) {
-        return axios.post('http://localhost:3000/lists/' + listId + '/tasks', {task: {list_id: listId, content: content}}, {headers: this.data})
+        return axios.post('http://localhost:3000/v1/lists/' + listId + '/tasks', {task: {list_id: listId, content: content}}, {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
@@ -47,7 +47,7 @@ export default class Requests {
             });
     }
     static changeTaskState (task) {
-        return axios.patch('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id + '/check', {headers: this.data})
+        return axios.patch('http://localhost:3000/v1/lists/' + task.list_id + '/tasks/' + task.id + '/check', {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
@@ -58,7 +58,7 @@ export default class Requests {
             });
     }
     static delTask (task) {
-        return axios.delete('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id, {headers: this.data})
+        return axios.delete('http://localhost:3000/v1/lists/' + task.list_id + '/tasks/' + task.id, {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response.data.lists);
@@ -66,7 +66,7 @@ export default class Requests {
             });
     }
     static upTaskPosition (task) {
-        return axios.patch('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id + '/up', {headers: this.data})
+        return axios.patch('http://localhost:3000/v1/lists/' + task.list_id + '/tasks/' + task.id + '/up', {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
@@ -77,7 +77,18 @@ export default class Requests {
             });
     }
     static downTaskPosition (task) {
-        return axios.patch('http://localhost:3000/lists/' + task.list_id + '/tasks/' + task.id + '/down', {headers: this.data})
+        return axios.patch('http://localhost:3000/v1/lists/' + task.list_id + '/tasks/' + task.id + '/down', {headers: this.data})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response);
+                }
+            })
+            .catch(function (error) {
+                return Promise.resolve(error);
+            });
+    }
+    static updateTask (task, content) {
+        return axios.patch('http://localhost:3000/v1/lists/' + task.list_id + '/tasks/' + task.id, {task: {content: content}}, {headers: this.data})
             .then((response) => {
                 if (response.status === 200) {
                     return Promise.resolve(response);
