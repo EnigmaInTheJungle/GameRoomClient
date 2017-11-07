@@ -1,21 +1,38 @@
-import './App.scss';
+import './App.css';
+import {
+    BrowserRouter,
+    Link,
+    Route,
+    Switch
+} from 'react-router-dom';
 import React, { Component } from 'react';
 import Lists from '../Lists/Lists';
-import Requests from '../../requests';
+import SignIn from '../User/SignIn';
+import SignOut from '../User/SignOut';
+import SignUp from '../User/SignUp';
 
 class App extends Component {
     constructor (props) {
         super(props);
-        Requests.fillData({
-            'access-token': 'hxk927Pj3Vc1nh3LoPeTyA',
-            'client': 'zt5ljid03n3f0oFx-fTRdw',
-            'uid': 'test@mail.com'
-        });
     }
     render () {
         return (
             <div className='App'>
-                <Lists />
+                <BrowserRouter>
+                    <div>
+                        <Link to="/">Home</Link>
+                        <Link to="/sign_in">SignIn</Link>
+                        <Link to="/sign_out">SignOut</Link>
+                        <Link to="/sign_up">SignUp</Link>
+
+                        <Switch>
+                            <Route path="/sign_in" component={SignIn} />
+                            <Route path="/sign_out" component={SignOut} />
+                            <Route path="/sign_up" component={SignUp} />
+                            <Route path="/" component={Lists} />
+                        </Switch>
+                    </div>
+                </BrowserRouter>
             </div>
         );
     }
