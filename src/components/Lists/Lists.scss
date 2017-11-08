@@ -1,12 +1,6 @@
 .Lists {
-  .list-buttons{
-    input{
-      display: block;
-      margin: 90px 90px 90px 90px;
+    .list-buttons {
+        display: flex;
+        justify-content: center;
     }
-  }
 }
-
-
-
-

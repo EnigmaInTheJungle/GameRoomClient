@@ -1,4 +1,4 @@
-// import './List.css';
+import './Lists.scss';
 import React, { Component } from 'react';
 import List from '../List/List';
 import Requests from '../../requests';

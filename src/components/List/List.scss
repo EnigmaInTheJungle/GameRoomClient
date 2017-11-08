@@ -1,57 +1,64 @@
+@import "../../palette.scss";
+
 .List {
-    border-top-right-radius: 15px;
-    border-top-left-radius: 15px;
-    background-color: darkslategray;
-    background-size: 100%;
-    margin: 25px auto;
-    width: 50%;
-    .list-add-task{
-        height: 25%;
-        padding: auto 3px 1px 3px;
+    width: 70%;
+    margin: 15px auto;
+    .list-header {
+        padding: 10px;
+        background: -webkit-linear-gradient(top, #1a82ff, #2F2777);
         display: flex;
         justify-content: space-between;
-        input{
-            width: 85%;
-            color: darkslategray;
-            font-style: italic;
-            font-family: Monaco;
-            font-size: 15px;
+        .list-header-title {
+            display: flex;
+            .list-header-title-icon {
+                background-image: url("../images/list-new-task-button.png");
+                width: 25px;
+                background-repeat: round;
+            }
+            .list-header-text {
+                margin-left: 10px;
+                font-size: 20px;
+                color: $primary-color-text;
+                display: flex;
+                span {
+                    align-self: center;
+                }
+            }
         }
-        button{
-            width: 15%;
-            color: #fff;
-            background-color: steelblue;
-            border: none;
-            border-radius: 3px;
-            padding: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            &:hover{
-                background-color: cornflowerblue;
+
+        .list-header-buttons {
+            display: flex;
+            height: 100%;
+            .button-edit-wrap {
+                padding-right: 5px;
+                border-right: 1px solid black;
+            }
+            .button-delete-wrap {
+               margin-left: 5px;
             }
         }
     }
-    .list-header{
-        height: 35px;
+
+    .list-add-task {
+        padding: 5px;
+        background-color: white;
         display: flex;
-        justify-content: space-between;
-        text{
-            margin: auto;
-            color: azure;
-            font-style: italic;
-            font-family: Monaco;
-            font-size: 20px;
-        }
-        button{
-            color: azure;
-            background-color: transparent;
-            font-size: medium;
-            font-family: Monaco;
+        justify-content: flex-start;
+        height: 35px;
+        button {
+            border-radius: 2px;
+            background-color: darkgreen;
+            color: white;
+            outline: none;
+            box-shadow: none;
             border: none;
-            &:hover{
-                color: red;
+            &:hover {
+                background-color: green;
+                cursor: pointer;
             }
+        }
+        input {
+            width: 100%;
         }
     }
 }

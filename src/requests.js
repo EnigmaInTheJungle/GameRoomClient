@@ -7,7 +7,7 @@ export default class Requests {
     static getCredentials () {
         let cookie = Cookies.get('auth_token');
         if (cookie) {
-            return Cookies.getJSON('auth_token');
+            return JSON.parse(cookie);
         }
         return {};
     }

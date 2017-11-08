@@ -1,6 +1,5 @@
 import './List.scss';
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
 import Requests from '../../requests';
 import Task from '../Task/Task';
 
@@ -35,8 +34,20 @@ class List extends Component {
         return (
             <div className='List'>
                 <div className='list-header'>
-                    <text>{this.props.list.label}</text>
-                    <button onClick={this.onDeleteListClick}>X</button>
+                    <div className="list-header-title">
+                        <div className="list-header-title-icon"/>
+                        <div className="list-header-text">
+                            <span>{this.props.list.label}</span>
+                        </div>
+                    </div>
+                    <div className="list-header-buttons">
+                        <div className="button-edit-wrap">
+                            <button onClick={this.onDeleteListClick}>X</button>
+                        </div>
+                        <div className="button-delete-wrap">
+                            <button onClick={this.onDeleteListClick}>X</button>
+                        </div>
+                    </div>
                 </div>
                 <div className='list-add-task'>
                     <input type="text" className="inputField" onKeyUp={this.onNewTaskAdded}/>
