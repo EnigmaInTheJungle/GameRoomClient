@@ -30,7 +30,7 @@ class TasksRequests extends Requests {
         return axios.patch(Url + 'v1/lists/' + task.list_id + '/tasks/' + task.id + '/check', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response);
+                    return Promise.resolve(response.data);
                 }
             })
             .catch(function (error) {
@@ -49,7 +49,7 @@ class TasksRequests extends Requests {
         return axios.patch(Url + 'v1/lists/' + task.list_id + '/tasks/' + task.id + '/up', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response);
+                    return Promise.resolve(response.data);
                 }
             })
             .catch(function (error) {
@@ -60,7 +60,7 @@ class TasksRequests extends Requests {
         return axios.patch(Url + 'v1/lists/' + task.list_id + '/tasks/' + task.id + '/down', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response);
+                    return Promise.resolve(response.data);
                 }
             })
             .catch(function (error) {

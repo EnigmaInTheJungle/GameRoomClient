@@ -1,0 +1,33 @@
+@import "../../palette.scss";
+
+.EditForm {
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    .valueInput {
+        input {
+            padding: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+    }
+    .buttons {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        button {
+            margin: 5px;
+            width: 40%;
+            border-radius: 2px;
+            background-color: $green-button;
+            color: white;
+            outline: none;
+            box-shadow: none;
+            border: none;
+
+            &:hover {
+                background-color: $green-button-hovered;
+            }
+        }
+    }
+}

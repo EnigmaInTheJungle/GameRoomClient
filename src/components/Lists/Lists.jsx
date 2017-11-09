@@ -17,16 +17,14 @@ class Lists extends Component {
     }
     onListUpdated = (response, action) => {
         if (action === 'delete') {
-            let newLists = this.state.lists.filter((list) => {
-                return list.id !== response.id;
-            });
-            this.setState({ lists: newLists });
+            this.setState({lists: this.state.lists.filter(list => list.id !== response.id)});
         } else {
-            this.setState({lists: [this.state.lists.map(list => list.id === response.id ? response : list)]});
+            this.setState({lists: this.state.lists.map(list => list.id === response.id ? response : list)});
         }
     };
     onAddListClick = () => {
         ListsRequests.addList(this.refs.inputListNameField.value).then((response) => {
+            this.refs.inputListNameField.value = '';
             this.setState({lists: [...this.state.lists, response]});
         });
     };

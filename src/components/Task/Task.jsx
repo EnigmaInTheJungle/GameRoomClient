@@ -1,5 +1,6 @@
 import './Task.scss';
 import React, { Component } from 'react';
+import EditForm from '../EditForm/EditForm';
 import TasksRequests from '../../requests/tasksRequests';
 
 class Task extends Component {
@@ -17,8 +18,8 @@ class Task extends Component {
             this.props.onTaskUpdated(response, 'delete');
         });
     };
-    handleSaveNewContentClick = () => {
-        TasksRequests.updateTask(this.props.task, this.refs.editContentInput.value).then((response) => {
+    handleSaveNewContentClick = (value) => {
+        TasksRequests.updateTask(this.props.task, value).then((response) => {
             this.setState({isUpdating: false});
             this.props.onTaskUpdated(response, 'update');
         });
@@ -26,45 +27,43 @@ class Task extends Component {
     handleCancelNewContentClick = () => {
         this.setState({isUpdating: false});
     };
-    // isDownChanged = () => {
-    //     TasksRequests.changeTaskState(this.props.task).then(() => {
-    //         this.props.requestGetLists();
-    //     });
-    // };
-    // onTaskUpped = () => {
-    //     TasksRequests.upTaskPosition(this.props.task).then(() => {
-    //         this.props.requestGetLists();
-    //     });
-    // };
-    // onTaskDowned = () => {
-    //     TasksRequests.downTaskPosition(this.props.task).then(() => {
-    //         this.props.requestGetLists();
-    //     });
-    // };
+    handleCheckTask = () => {
+        TasksRequests.changeTaskState(this.props.task).then((response) => {
+            this.props.onTaskUpdated(response, 'update');
+        });
+    };
+    handleTaskUp = () => {
+        TasksRequests.upTaskPosition(this.props.task).then((response) => {
+            this.props.onTaskUpdated(response, 'update');
+        });
+    };
+    handleTaskDown = () => {
+        TasksRequests.downTaskPosition(this.props.task).then((response) => {
+            this.props.onTaskUpdated(response, 'update');
+        });
+    };
     render () {
         return (
-            <div className='Task'>
-                {
-                    this.state.isUpdating
-                        ? <div>
-                            <input type='text' defaultValue={this.props.task.content} ref='editContentInput'/>
-                            <div>
-                                <button onClick={this.handleSaveNewContentClick}>Save</button>
-                                <button onClick={this.handleCancelNewContentClick}>Cancel</button>
-                            </div>
-                        </div>
-                        : <div>
-                            <input id='done-state' type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
-                            <text className='task-content' >{this.props.task.content} </text>
-                            <span className='task-buttons'>
-                                <i className="arrow up" onClick={this.onTaskUpped} />
-                                <i className="arrow down" onClick={this.onTaskDowned} />
-                                <strong className='edit-btn' onClick={this.handleEditTaskClick}>E</strong>
-                                <strong className='delete-btn' onClick={this.handleDeleteTaskClick}>X</strong>
-                            </span>
-                        </div>
-                }
-            </div>
+            this.state.isUpdating
+                ? <EditForm
+                    defaultValue={this.props.task.content}
+                    callbackSaveClick={this.handleSaveNewContentClick}
+                    callbackCancelClick={this.handleCancelNewContentClick}
+                />
+                : <div className='Task'>
+                    <div className='left-area'>
+                        <input id='done-state' type='checkbox' checked={this.props.task.is_done} onChange={this.handleCheckTask}/>
+                        <text className='task-content'>{this.props.task.content} </text>
+                    </div>
+                    <div className="right-area">
+                        <span className='task-buttons'>
+                            <i className="arrow up" onClick={this.handleTaskUp}/>
+                            <i className="arrow down" onClick={this.handleTaskDown}/>
+                            <strong className='edit-btn' onClick={this.handleEditTaskClick}>E</strong>
+                            <strong className='delete-btn' onClick={this.handleDeleteTaskClick}>X</strong>
+                        </span>
+                    </div>
+                </div>
         );
     }
 }

@@ -1,5 +1,6 @@
 import './List.scss';
 import React, { Component } from 'react';
+import EditForm from '../EditForm/EditForm';
 import ListsRequests from '../../requests/listsRequests';
 import Task from '../Task/Task';
 import TasksRequests from '../../requests/tasksRequests';
@@ -19,6 +20,7 @@ class List extends Component {
     }
     onAddTaskClick = () => {
         TasksRequests.addTask(this.refs.newTaskContentInput.value, this.props.list.id).then((response) => {
+            this.refs.newTaskContentInput.value = '';
             this.setState({tasks: [...this.state.tasks, response]});
         });
     };
@@ -30,8 +32,8 @@ class List extends Component {
             this.props.onListUpdated(response, 'delete');
         });
     };
-    handleSaveNewLabelClick = () => {
-        ListsRequests.updateList(this.props.list.id, this.refs.editLabelInput.value).then((response) => {
+    handleSaveNewLabelClick = (value) => {
+        ListsRequests.updateList(this.props.list.id, value).then((response) => {
             this.setState({isUpdating: false});
             this.props.onListUpdated(response, 'update');
         });
@@ -41,17 +43,9 @@ class List extends Component {
     };
     onTaskUpdated = (response, action) => {
         if (action === 'delete') {
-            let newTasks = this.state.tasks.filter((task) => {
-                return task.id !== response.id;
-            });
-            this.setState({ tasks: newTasks });
+            this.setState({ tasks: this.state.tasks.filter(task => task.id !== response.id)});
         } else {
-            let i = this.state.tasks.findIndex((task) => {
-                return task.id === response.id;
-            });
-            let tasks = this.state.tasks;
-            tasks[i] = response;
-            this.setState({tasks: tasks});
+            this.setState({tasks: this.state.tasks.map(task => task.id === response.id ? response : task)});
         }
     };
     render () {
@@ -59,13 +53,11 @@ class List extends Component {
             <div className='List'>
                 {
                     this.state.isUpdating
-                        ? <div>
-                            <input type='text' defaultValue={this.props.list.label} ref='editLabelInput'/>
-                            <div>
-                                <button onClick={this.handleSaveNewLabelClick}>Save</button>
-                                <button onClick={this.handleCancelNewLabelClick}>Cancel</button>
-                            </div>
-                        </div>
+                        ? <EditForm
+                            defaultValue={this.props.list.label}
+                            callbackSaveClick={this.handleSaveNewLabelClick}
+                            callbackCancelClick={this.handleCancelNewLabelClick}
+                        />
                         : <div className='list-header'>
                             <div className="list-header-title">
                                 <div className="list-header-title-icon"/>

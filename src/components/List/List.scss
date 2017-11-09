@@ -3,6 +3,7 @@
 .List {
     width: 70%;
     margin: 15px auto;
+    background-color: white;
     .list-header {
         padding: 10px;
         background: -webkit-linear-gradient(top, #1a82ff, #2F2777);
@@ -47,13 +48,13 @@
         height: 35px;
         button {
             border-radius: 2px;
-            background-color: darkgreen;
+            background-color: $green-button;
             color: white;
             outline: none;
             box-shadow: none;
             border: none;
             &:hover {
-                background-color: green;
+                background-color: $green-button-hovered;
                 cursor: pointer;
             }
         }
