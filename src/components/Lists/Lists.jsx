@@ -1,7 +1,7 @@
 import './Lists.scss';
 import React, { Component } from 'react';
 import List from '../List/List';
-import Requests from '../../requests';
+import ListsRequests from '../../requests/listsRequests';
 
 class Lists extends Component {
     constructor (props) {
@@ -10,19 +10,19 @@ class Lists extends Component {
             lists: null
         };
     }
-    componentWillMount () {
-        this.requestGetLists();
-    }
     requestGetLists = () => {
-        Requests.getLists().then((response) => {
+        ListsRequests.getLists().then((response) => {
             this.setState({lists: response});
         });
     };
     onAddListClick = () => {
-        Requests.addList(this.refs.inputListNameField.value).then(() => {
-            this.requestGetLists();
+        ListsRequests.addList(this.refs.inputListNameField.value).then((response) => {
+            this.setState({lists: [...this.state.lists, response]});
         });
     };
+    componentWillMount () {
+        this.requestGetLists();
+    }
     render () {
         return (
             <div className='Lists'>

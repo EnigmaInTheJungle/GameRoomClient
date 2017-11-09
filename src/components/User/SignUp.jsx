@@ -1,6 +1,6 @@
 import './SignUp.scss';
 import React, { Component } from 'react';
-import Requests from '../../requests';
+import UserRequests from '../../requests/userRequests';
 
 class SignIn extends Component {
     constructor (props) {
@@ -10,7 +10,7 @@ class SignIn extends Component {
         let email = this.refs.email.value;
         let password = this.refs.password.value;
         let passwordConfirmation = this.refs.pc.value;
-        Requests.signUp(email, password, passwordConfirmation);
+        UserRequests.signUp(email, password, passwordConfirmation);
     };
     render () {
         return (

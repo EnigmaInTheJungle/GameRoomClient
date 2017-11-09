@@ -1,10 +1,11 @@
-import 'urls.js';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Requests from './requests';
+import {Url} from './urls.js';
 
-class UserRequests {
+class UserRequests extends Requests {
     static signUp (email, password, passwordConfirmation) {
-        return axios.post(this.Url + 'auth', {
+        return axios.post(Url + 'auth', {
             email: email,
             password: password,
             password_confirmation: passwordConfirmation,
@@ -19,7 +20,7 @@ class UserRequests {
     }
 
     static signIn (email, password) {
-        return axios.post(this.Url + 'auth/sign_in', {email: email, password: password})
+        return axios.post(Url + 'auth/sign_in', {email: email, password: password})
             .then((response) => {
                 if (response.status === 200) {
                     Cookies.set('auth_token', JSON.stringify({
@@ -36,7 +37,7 @@ class UserRequests {
     }
 
     static signOut () {
-        return axios.delete(this.Url + 'auth/sign_out', {headers: this.getCredentials()})
+        return axios.delete(Url + 'auth/sign_out', {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
                     Cookies.remove('auth_token');
@@ -48,3 +49,5 @@ class UserRequests {
             });
     }
 }
+
+export default UserRequests;

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Requests from '../../requests';
+import UserRequests from '../../requests/userRequests';
 
 class SignOut extends Component {
     constructor (props) {
         super(props);
     }
     handleClick = () => {
-        Requests.signOut();
+        UserRequests.signOut();
     };
     render () {
         return (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Requests from '../../requests';
+import UserRequests from '../../requests/userRequests';
 
 class SignIn extends Component {
     constructor (props) {
@@ -8,7 +8,7 @@ class SignIn extends Component {
     handleClick = () => {
         let email = this.refs.email.value;
         let password = this.refs.password.value;
-        Requests.signIn(email, password);
+        UserRequests.signIn(email, password);
     };
     render () {
         return (

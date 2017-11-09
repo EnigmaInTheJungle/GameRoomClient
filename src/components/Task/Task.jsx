@@ -1,6 +1,6 @@
 import './Task.scss';
 import React, { Component } from 'react';
-import Requests from '../../requests';
+import TasksRequests from '../../requests/tasksRequests';
 
 class Task extends Component {
     constructor (props) {
@@ -10,22 +10,22 @@ class Task extends Component {
         };
     }
     isDownChanged = () => {
-        Requests.changeTaskState(this.props.task).then(() => {
+        TasksRequests.changeTaskState(this.props.task).then(() => {
             this.props.requestGetLists();
         });
     }
     onTaskDeleted = () => {
-        Requests.delTask(this.props.task).then(() => {
+        TasksRequests.delTask(this.props.task).then(() => {
             this.props.requestGetLists();
         });
     }
     onTaskUpped = () => {
-        Requests.upTaskPosition(this.props.task).then(() => {
+        TasksRequests.upTaskPosition(this.props.task).then(() => {
             this.props.requestGetLists();
         });
     }
     onTaskDowned = () => {
-        Requests.downTaskPosition(this.props.task).then(() => {
+        TasksRequests.downTaskPosition(this.props.task).then(() => {
             this.props.requestGetLists();
         });
     }
@@ -41,7 +41,7 @@ class Task extends Component {
     onTaskUpdated = (event) => {
         if (event.key === 'Enter') {
             this.setState({isUpdating: false});
-            Requests.updateTask(this.props.task, event.target.value).then(() => {
+            TasksRequests.updateTask(this.props.task, event.target.value).then(() => {
                 this.props.requestGetLists();
             });
         } else {
@@ -58,8 +58,8 @@ class Task extends Component {
                     <text className='task-content' >{this.props.task.content}</text>
                 )}
                 <span className='task-buttons'>
-                    <i className="arrow up" onClick={this.onTaskUpped}></i>
-                    <i className="arrow down" onClick={this.onTaskDowned}></i>
+                    <i className="arrow up" onClick={this.onTaskUpped} />
+                    <i className="arrow down" onClick={this.onTaskDowned} />
                     <strong className='delete-btn' onClick={this.onTaskDeleted}>X</strong>
                 </span>
             </div>

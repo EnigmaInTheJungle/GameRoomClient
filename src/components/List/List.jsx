@@ -1,7 +1,7 @@
 import './List.scss';
 import React, { Component } from 'react';
-import Requests from '../../requests';
 import Task from '../Task/Task';
+import TasksRequests from '../../requests/tasksRequests';
 
 class List extends Component {
     constructor (props) {
@@ -12,7 +12,7 @@ class List extends Component {
         };
     }
     handleClick = () => {
-        Requests.addTask(this.state.newTaskContent, this.props.list.id).then(() => {
+        TasksRequests.addTask(this.state.newTaskContent, this.props.list.id).then(() => {
             this.props.requestGetLists();
         });
     };
@@ -21,12 +21,12 @@ class List extends Component {
             newTaskContent: event.target.value});
     };
     onDeleteListClick = () => {
-        Requests.delList(this.props.list.id).then(() => {
+        TasksRequests.delList(this.props.list.id).then(() => {
             this.props.requestGetLists();
         });
     };
     componentWillMount () {
-        Requests.getTasks(this.props.list.id).then((response) => {
+        TasksRequests.getTasks(this.props.list.id).then((response) => {
             this.setState({tasks: response});
         });
     }
