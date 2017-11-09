@@ -11,11 +11,19 @@ class ListsRequests extends Requests {
                 }
             });
     }
+    static updateList (listId, label) {
+        return axios.patch(Url + 'v1/lists/' + listId, {list: {label: label}}, {headers: this.getCredentials()})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response.data);
+                }
+            });
+    }
     static delList (listId) {
         return axios.delete(Url + 'v1/lists/' + listId, {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response.data.lists);
+                    return Promise.resolve(response.data);
                 }
             });
     }

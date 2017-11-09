@@ -9,59 +9,61 @@ class Task extends Component {
             isUpdating: false
         };
     }
-    isDownChanged = () => {
-        TasksRequests.changeTaskState(this.props.task).then(() => {
-            this.props.requestGetLists();
+    handleEditTaskClick = () => {
+        this.setState({isUpdating: true});
+    };
+    handleDeleteTaskClick = () => {
+        TasksRequests.delTask(this.props.task).then((response) => {
+            this.props.onTaskUpdated(response, 'delete');
         });
-    }
-    onTaskDeleted = () => {
-        TasksRequests.delTask(this.props.task).then(() => {
-            this.props.requestGetLists();
-        });
-    }
-    onTaskUpped = () => {
-        TasksRequests.upTaskPosition(this.props.task).then(() => {
-            this.props.requestGetLists();
-        });
-    }
-    onTaskDowned = () => {
-        TasksRequests.downTaskPosition(this.props.task).then(() => {
-            this.props.requestGetLists();
-        });
-    }
-    startUpdating = (event) => {
-        event.persist();
-        this.setState({isUpdating: true}, () => {
-            this.refs.updateInput.value = this.props.task.content;
-        });
-    }
-    closeUpdating = () => {
-        this.setState({isUpdating: false});
-    }
-    onTaskUpdated = (event) => {
-        if (event.key === 'Enter') {
+    };
+    handleSaveNewContentClick = () => {
+        TasksRequests.updateTask(this.props.task, this.refs.editContentInput.value).then((response) => {
             this.setState({isUpdating: false});
-            TasksRequests.updateTask(this.props.task, event.target.value).then(() => {
-                this.props.requestGetLists();
-            });
-        } else {
-            this.setState({currentContent: this.state.currentContent + event.key});
-        }
-    }
+            this.props.onTaskUpdated(response, 'update');
+        });
+    };
+    handleCancelNewContentClick = () => {
+        this.setState({isUpdating: false});
+    };
+    // isDownChanged = () => {
+    //     TasksRequests.changeTaskState(this.props.task).then(() => {
+    //         this.props.requestGetLists();
+    //     });
+    // };
+    // onTaskUpped = () => {
+    //     TasksRequests.upTaskPosition(this.props.task).then(() => {
+    //         this.props.requestGetLists();
+    //     });
+    // };
+    // onTaskDowned = () => {
+    //     TasksRequests.downTaskPosition(this.props.task).then(() => {
+    //         this.props.requestGetLists();
+    //     });
+    // };
     render () {
         return (
-            <div onDoubleClick={this.startUpdating} className='Task'>
-                <input id='done-state' type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
-                {this.state.isUpdating ? (
-                    <input type='text' ref='updateInput' className='task-input-update' autoFocus={true} onKeyUp={this.onTaskUpdated} onMouseLeave={this.closeUpdating}/>
-                ) : (
-                    <text className='task-content' >{this.props.task.content}</text>
-                )}
-                <span className='task-buttons'>
-                    <i className="arrow up" onClick={this.onTaskUpped} />
-                    <i className="arrow down" onClick={this.onTaskDowned} />
-                    <strong className='delete-btn' onClick={this.onTaskDeleted}>X</strong>
-                </span>
+            <div className='Task'>
+                {
+                    this.state.isUpdating
+                        ? <div>
+                            <input type='text' defaultValue={this.props.task.content} ref='editContentInput'/>
+                            <div>
+                                <button onClick={this.handleSaveNewContentClick}>Save</button>
+                                <button onClick={this.handleCancelNewContentClick}>Cancel</button>
+                            </div>
+                        </div>
+                        : <div>
+                            <input id='done-state' type='checkbox' checked={this.props.task.is_done} onClick={this.isDownChanged}/>
+                            <text className='task-content' >{this.props.task.content} </text>
+                            <span className='task-buttons'>
+                                <i className="arrow up" onClick={this.onTaskUpped} />
+                                <i className="arrow down" onClick={this.onTaskDowned} />
+                                <strong className='edit-btn' onClick={this.handleEditTaskClick}>E</strong>
+                                <strong className='delete-btn' onClick={this.handleDeleteTaskClick}>X</strong>
+                            </span>
+                        </div>
+                }
             </div>
         );
     }

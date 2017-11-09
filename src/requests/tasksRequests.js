@@ -18,8 +18,8 @@ class TasksRequests extends Requests {
     static addTask (content, listId) {
         return axios.post(Url + 'v1/lists/' + listId + '/tasks', {task: {list_id: listId, content: content}}, {headers: this.getCredentials()})
             .then((response) => {
-                if (response.status === 200) {
-                    return Promise.resolve(response);
+                if (response.status === 201) {
+                    return Promise.resolve(response.data);
                 }
             })
             .catch(function (error) {
@@ -41,7 +41,7 @@ class TasksRequests extends Requests {
         return axios.delete(Url + 'v1/lists/' + task.list_id + '/tasks/' + task.id, {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response.data.lists);
+                    return Promise.resolve(response.data);
                 }
             });
     }
@@ -71,7 +71,7 @@ class TasksRequests extends Requests {
         return axios.patch(Url + 'v1/lists/' + task.list_id + '/tasks/' + task.id, {task: {content: content}}, {headers: this.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    return Promise.resolve(response);
+                    return Promise.resolve(response.data);
                 }
             })
             .catch(function (error) {

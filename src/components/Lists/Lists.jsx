@@ -10,24 +10,31 @@ class Lists extends Component {
             lists: null
         };
     }
-    requestGetLists = () => {
+    componentWillMount () {
         ListsRequests.getLists().then((response) => {
             this.setState({lists: response});
         });
+    }
+    onListUpdated = (response, action) => {
+        if (action === 'delete') {
+            let newLists = this.state.lists.filter((list) => {
+                return list.id !== response.id;
+            });
+            this.setState({ lists: newLists });
+        } else {
+            this.setState({lists: [this.state.lists.map(list => list.id === response.id ? response : list)]});
+        }
     };
     onAddListClick = () => {
         ListsRequests.addList(this.refs.inputListNameField.value).then((response) => {
             this.setState({lists: [...this.state.lists, response]});
         });
     };
-    componentWillMount () {
-        this.requestGetLists();
-    }
     render () {
         return (
             <div className='Lists'>
                 {this.state.lists ? this.state.lists.map((list) =>
-                    <List key={list.id} requestGetLists={this.requestGetLists} list={list}/>
+                    <List key={list.id} onListUpdated={this.onListUpdated} list={list}/>
                 ) : null}
                 <div className='list-buttons'>
                     <input type='text' ref='inputListNameField'/>
