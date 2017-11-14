@@ -1,66 +1,8 @@
-@import "../../palette.scss";
-
 .List {
-    width: 70%;
-    margin: 15px auto;
-    background-color: white;
-    .list-header {
-        padding: 10px;
-        background: -webkit-linear-gradient(top, #1a82ff, #2F2777);
-        display: flex;
-        justify-content: space-between;
-        .list-header-title {
-            display: flex;
-            .list-header-title-icon {
-                background-image: url("../images/list-new-task-button.png");
-                width: 25px;
-                background-repeat: round;
-            }
-            .list-header-text {
-                margin-left: 10px;
-                font-size: 20px;
-                color: $primary-color-text;
-                display: flex;
-                span {
-                    align-self: center;
-                }
-            }
-        }
-
-        .list-header-buttons {
-            display: flex;
-            height: 100%;
-            .button-edit-wrap {
-                padding-right: 5px;
-                border-right: 1px solid black;
-            }
-            .button-delete-wrap {
-               margin-left: 5px;
-            }
-        }
-    }
-
-    .list-add-task {
-        padding: 5px;
-        background-color: white;
-        display: flex;
-        justify-content: flex-start;
-        height: 35px;
-        button {
-            border-radius: 2px;
-            background-color: $green-button;
-            color: white;
-            outline: none;
-            box-shadow: none;
-            border: none;
-            &:hover {
-                background-color: $green-button-hovered;
-                cursor: pointer;
-            }
-        }
-        input {
-            width: 100%;
-        }
-    }
+    color: grey;
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 

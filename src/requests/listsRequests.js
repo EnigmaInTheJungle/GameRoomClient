@@ -1,16 +1,8 @@
 import axios from 'axios';
 import Requests from './requests';
-import {Url} from './urls.js';
+import {Url} from '../redux/urls.js';
 
 class ListsRequests extends Requests {
-    static getLists () {
-        return axios.get(Url + 'v1/lists', {headers: this.getCredentials()})
-            .then((response) => {
-                if (response.status === 200) {
-                    return Promise.resolve(response.data);
-                }
-            });
-    }
     static updateList (listId, label) {
         return axios.patch(Url + 'v1/lists/' + listId, {list: {label: label}}, {headers: this.getCredentials()})
             .then((response) => {

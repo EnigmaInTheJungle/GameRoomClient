@@ -1,0 +1,18 @@
+.header {
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #dfe6f3;
+    .logo {
+        text-align: center;
+        width: 100px;
+    }
+    strong {
+        font-size: 28px;
+    }
+    .sign-out-wrap {
+        .sign-out-icon {
+            color: lightslategray;
+        }
+    }
+}

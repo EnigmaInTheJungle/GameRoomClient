@@ -1,46 +1,64 @@
 import './Lists.scss';
+import {addList, getLists} from '../../redux/actions/listActions';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import EditForm from '../EditForm/EditForm';
 import List from '../List/List';
-import ListsRequests from '../../requests/listsRequests';
+
+// import PropTypes from 'prop-types';
+
+// const propTypes = {
+//     lists: PropTypes.array.isRequired
+// };
 
 class Lists extends Component {
     constructor (props) {
         super(props);
-        this.state = {
-            lists: null
-        };
     }
     componentWillMount () {
-        ListsRequests.getLists().then((response) => {
-            this.setState({lists: response});
+        console.log(this.props);
+        this.props.getLists().then((response) => {
+            if (response === 'success') {
+                //
+            }
         });
     }
-    onListUpdated = (response, action) => {
-        if (action === 'delete') {
-            this.setState({lists: this.state.lists.filter(list => list.id !== response.id)});
-        } else {
-            this.setState({lists: this.state.lists.map(list => list.id === response.id ? response : list)});
-        }
-    };
-    onAddListClick = () => {
-        ListsRequests.addList(this.refs.inputListNameField.value).then((response) => {
-            this.refs.inputListNameField.value = '';
-            this.setState({lists: [...this.state.lists, response]});
+    onAddListClick = (value) => {
+        this.props.addList(value).then(() => {
+            //
         });
     };
     render () {
         return (
-            <div className='Lists'>
-                {this.state.lists ? this.state.lists.map((list) =>
-                    <List key={list.id} onListUpdated={this.onListUpdated} list={list}/>
-                ) : null}
-                <div className='list-buttons'>
-                    <input type='text' ref='inputListNameField'/>
-                    <button onClick={this.onAddListClick}>AddList</button>
+            <div className="lists-wrap">
+                <div className='lists'>
+                    {this.props.lists.map((list) =>
+                        <List key={list.id} list={list}/>
+                    )}
+                    <EditForm
+                        callbackConfirmClick={this.onAddListClick}
+                        confirmButtonLabel={'Add list'}
+                        placeholder={'New list'}
+                    />
                 </div>
             </div>
         );
     }
 }
 
-export default Lists;
+// Lists.propTypes = propTypes;
+
+function mapStateToProps (state) {
+    return {
+        lists: state.lists
+    };
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        getLists: () => dispatch(getLists()),
+        addList: (label) => dispatch(addList(label))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lists);

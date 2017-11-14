@@ -1,52 +1,39 @@
 import './List.scss';
 import React, { Component } from 'react';
+import AddTaskForm from './AddTaskForm';
+import { connect } from 'react-redux';
 import EditForm from '../EditForm/EditForm';
-import ListsRequests from '../../requests/listsRequests';
+import {getTasks} from '../../redux/actions/taskActions';
+import ListHeader from './ListHeader';
 import Task from '../Task/Task';
-import TasksRequests from '../../requests/tasksRequests';
+import {updateList} from '../../redux/actions/listActions';
 
 class List extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            tasks: null,
-            isUpdating: false
+            isUpdating: false,
+            isExpanded: false
         };
     }
     componentWillMount () {
-        TasksRequests.getTasks(this.props.list.id).then((response) => {
-            this.setState({tasks: response});
+        this.props.getTasks().then(() => {
+            //
         });
     }
-    onAddTaskClick = () => {
-        TasksRequests.addTask(this.refs.newTaskContentInput.value, this.props.list.id).then((response) => {
-            this.refs.newTaskContentInput.value = '';
-            this.setState({tasks: [...this.state.tasks, response]});
-        });
-    };
-    handleEditListClick = () => {
-        this.setState({isUpdating: true});
-    };
-    handleDeleteListClick = () => {
-        ListsRequests.delList(this.props.list.id).then((response) => {
-            this.props.onListUpdated(response, 'delete');
-        });
-    };
     handleSaveNewLabelClick = (value) => {
-        ListsRequests.updateList(this.props.list.id, value).then((response) => {
+        this.props.updateList(this.props.list.id, value).then(() => {
             this.setState({isUpdating: false});
-            this.props.onListUpdated(response, 'update');
         });
     };
     handleCancelNewLabelClick = () => {
         this.setState({isUpdating: false});
     };
-    onTaskUpdated = (response, action) => {
-        if (action === 'delete') {
-            this.setState({ tasks: this.state.tasks.filter(task => task.id !== response.id)});
-        } else {
-            this.setState({tasks: this.state.tasks.map(task => task.id === response.id ? response : task)});
-        }
+    onUpdating = (isUpdating) => {
+        this.setState({isUpdating: isUpdating});
+    };
+    onExpanding = () => {
+        this.setState({isExpanded: !this.state.isExpanded});
     };
     render () {
         return (
@@ -54,41 +41,51 @@ class List extends Component {
                 {
                     this.state.isUpdating
                         ? <EditForm
-                            defaultValue={this.props.list.label}
-                            callbackSaveClick={this.handleSaveNewLabelClick}
+                            callbackConfirmClick={this.handleSaveNewLabelClick}
+                            confirmButtonLabel={'Save'}
                             callbackCancelClick={this.handleCancelNewLabelClick}
+                            cancelButtonLabel={'Cancel'}
+                            defaultValue={this.props.list.label}
                         />
-                        : <div className='list-header'>
-                            <div className="list-header-title">
-                                <div className="list-header-title-icon"/>
-                                <div className="list-header-text">
-                                    <span>{this.props.list.label}</span>
-                                </div>
-                            </div>
-                            <div className="list-header-buttons">
-                                <div className="button-edit-wrap">
-                                    <button onClick={this.handleEditListClick}>E</button>
-                                </div>
-                                <div className="button-delete-wrap">
-                                    <button onClick={this.handleDeleteListClick}>X</button>
-                                </div>
-                            </div>
-                        </div>
+                        : <ListHeader
+                            list={this.props.list}
+                            onUpdating={this.onUpdating}
+                            onExpanding={this.onExpanding}
+                            isExpanded={this.state.isExpanded}
+                        />
                 }
-                <div className='list-add-task'>
-                    <input type="text" className="inputField" ref="newTaskContentInput"/>
-                    <button onClick={this.onAddTaskClick}>Add task</button>
-                </div>
-                <div className='list-tasks'>
-                    {
-                        this.state.tasks ? this.state.tasks.map((task) =>
-                            <Task key = {task.id} task={task} onTaskUpdated={this.onTaskUpdated}/>
-                        ) : null
-                    }
-                </div>
+                {
+                    this.state.isExpanded
+                        ? <div className="expanded">
+                            <div className='list-tasks'>
+                                {this.props.tasks.map((task) =>
+                                    <Task key = {task.id} task={task}/>
+                                )
+                                }
+                            </div>
+                            <AddTaskForm
+                                listId = {this.props.list.id}
+                                onAddTaskClick={this.onAddTaskClick}
+                            />
+                        </div>
+                        : null
+                }
             </div>
         );
     }
 }
 
-export default List;
+function mapStateToProps (state) {
+    return {
+        tasks: state.tasks
+    };
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        getTasks: () => dispatch(getTasks()),
+        updateList: (listId, label) => dispatch(updateList(listId, label))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);

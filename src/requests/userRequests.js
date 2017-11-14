@@ -1,9 +1,21 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Requests from './requests';
-import {Url} from './urls.js';
+import {Url} from '../redux/urls.js';
 
 class UserRequests extends Requests {
+    static validateToken () {
+        return axios.get(Url + 'auth/validate_token', {headers: this.getCredentials()})
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.resolve(response.data.success);
+                }
+            })
+            .catch((error) => {
+                return Promise.resolve(error.response.data.success);
+            });
+    }
+
     static signUp (email, password, passwordConfirmation) {
         return axios.post(Url + 'auth', {
             email: email,
@@ -12,6 +24,11 @@ class UserRequests extends Requests {
             confirm_success_url: ''
         }).then((response) => {
             if (response.status === 200) {
+                Cookies.set('auth_token', JSON.stringify({
+                    'access-token': response.headers['access-token'],
+                    'client': response.headers['client'],
+                    'uid': response.headers['uid']
+                }));
                 return Promise.resolve(response);
             }
         }).catch(function (error) {
@@ -32,7 +49,7 @@ class UserRequests extends Requests {
                 }
             })
             .catch(function (error) {
-                return Promise.resolve(error);
+                return Promise.reject(error);
             });
     }
 
