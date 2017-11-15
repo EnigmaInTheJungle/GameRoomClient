@@ -1,9 +1,9 @@
-import './Lists.scss';
 import {getTasks, deleteTask, updateTask, changeTaskState, upTaskPosition, downTaskPosition} from '../../../redux/actions/taskActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import EditForm from 'EditForm/EditForm';
 import PropTypes from 'prop-types';
+import Task from '../Task/Task';
 
 const propTypes = {
     tasks: PropTypes.array.isRequired,

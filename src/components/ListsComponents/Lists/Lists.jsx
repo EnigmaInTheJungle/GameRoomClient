@@ -29,11 +29,9 @@ class Lists extends Component {
             <div className="lists-wrap">
                 <div className='lists'>
                     {this.props.lists.map((list) =>
-                        <div key={list.id}>
-                            <List list={list}
-                                deleteList={this.props.deleteList}
-                                updateList={this.props.updateList}/>
-                        </div>)
+                        <List key={list.id} list={list}
+                            deleteList={this.props.deleteList}
+                            updateList={this.props.updateList}/>)
                     }
                     <EditForm
                         callbackConfirmClick={this.onAddListClick}

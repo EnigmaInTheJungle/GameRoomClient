@@ -5,6 +5,7 @@ import AddTaskForm from '../../Forms/AddTaskForm/AddTaskForm';
 import EditForm from '../../Forms/EditForm/EditForm';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
+import Tasks from '../../TasksComponents/Tasks/Tasks';
 
 const propTypes = {
     list: PropTypes.object.isRequired,
