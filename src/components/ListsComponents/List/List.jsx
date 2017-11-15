@@ -10,7 +10,8 @@ import Tasks from '../../TasksComponents/Tasks/Tasks';
 const propTypes = {
     list: PropTypes.object.isRequired,
     deleteList: PropTypes.func.isRequired,
-    updateList: PropTypes.func.isRequired
+    updateList: PropTypes.func.isRequired,
+    getTasks: PropTypes.func.isRequired
 };
 
 class List extends Component {
@@ -21,19 +22,22 @@ class List extends Component {
             isExpanded: false
         };
     }
+    componentWillMount () {
+        this.props.getTasks(this.props.list.id);
+    }
+    onUpdating = (isUpdating) => {
+        this.setState({isUpdating: isUpdating});
+    };
     handleSaveNewLabelClick = (value) => {
         this.props.updateList(this.props.list.id, value).then(() => {
             this.setState({isUpdating: false});
         });
     };
-    handleDeleteListClick = () => {
-        this.props.deleteList(this.props.list.id);
-    };
     handleCancelNewLabelClick = () => {
         this.setState({isUpdating: false});
     };
-    onUpdating = (isUpdating) => {
-        this.setState({isUpdating: isUpdating});
+    handleDeleteListClick = () => {
+        this.props.deleteList(this.props.list.id);
     };
     onExpanding = () => {
         this.setState({isExpanded: !this.state.isExpanded});

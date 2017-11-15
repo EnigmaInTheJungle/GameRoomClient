@@ -3,6 +3,7 @@ import { addList, deleteList, getLists, updateList } from '../../../redux/action
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EditForm from '../../Forms/EditForm/EditForm';
+import { getTasks } from '../../../redux/actions/taskActions';
 import List from '../List/List';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,8 @@ const propTypes = {
     getLists: PropTypes.func.isRequired,
     addList: PropTypes.func.isRequired,
     deleteList: PropTypes.func.isRequired,
-    updateList: PropTypes.func.isRequired
+    updateList: PropTypes.func.isRequired,
+    getTasks: PropTypes.func.isRequired
 };
 
 class Lists extends Component {
@@ -31,6 +33,7 @@ class Lists extends Component {
                     {this.props.lists.map((list) =>
                         <List key={list.id} list={list}
                             deleteList={this.props.deleteList}
+                            getTasks={this.props.getTasks}
                             updateList={this.props.updateList}/>)
                     }
                     <EditForm
@@ -57,7 +60,8 @@ function mapDispatchToProps (dispatch) {
         getLists: () => dispatch(getLists()),
         addList: (label) => dispatch(addList(label)),
         updateList: (listId, label) => dispatch(updateList(listId, label)),
-        deleteList: (listId) => dispatch(deleteList(listId))
+        deleteList: (listId) => dispatch(deleteList(listId)),
+        getTasks: (listId) => dispatch(getTasks(listId))
     };
 }
 
