@@ -1,9 +1,17 @@
 import './Task.scss';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import EditForm from '../EditForm/EditForm';
+import EditForm from '../../Forms/EditForm/EditForm';
 import FontAwesome from 'react-fontawesome';
-import TasksRequests from '../../requests/tasksRequests';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+    task: PropTypes.object.isRequired,
+    deleteTask: PropTypes.func.isRequired,
+    updateTask: PropTypes.func.isRequired,
+    changeTaskState: PropTypes.func.isRequired,
+    upTaskPosition: PropTypes.func.isRequired,
+    downTaskPosition: PropTypes.func.isRequired
+};
 
 class Task extends Component {
     constructor (props) {
@@ -16,33 +24,26 @@ class Task extends Component {
         this.setState({isUpdating: true});
     };
     handleDeleteTaskClick = () => {
-        this.props.delTask(this.props.task).then((response) => {
-            this.props.onTaskUpdated(response, 'delete');
-        });
+        this.props.deleteTask(this.props.task);
     };
     handleSaveNewContentClick = (value) => {
-        TasksRequests.updateTask(this.props.task, value).then((response) => {
-            this.setState({isUpdating: false});
-            this.props.onTaskUpdated(response, 'update');
+        this.props.updateTask(this.props.task, value).then((response) => {
+            if (response === 'success') {
+                this.setState({isUpdating: false});
+            }
         });
     };
     handleCancelNewContentClick = () => {
         this.setState({isUpdating: false});
     };
     handleCheckTask = () => {
-        TasksRequests.changeTaskState(this.props.task).then((response) => {
-            this.props.onTaskUpdated(response, 'update');
-        });
+        this.props.changeTaskState(this.props.task);
     };
     handleTaskUp = () => {
-        TasksRequests.upTaskPosition(this.props.task).then((response) => {
-            this.props.onTaskUpdated(response, 'update');
-        });
+        this.props.upTaskPosition(this.props.task);
     };
     handleTaskDown = () => {
-        TasksRequests.downTaskPosition(this.props.task).then((response) => {
-            this.props.onTaskUpdated(response, 'update');
-        });
+        this.props.downTaskPosition(this.props.task);
     };
     render () {
         return (
@@ -92,11 +93,6 @@ class Task extends Component {
     }
 }
 
-function mapDispatchToProps (dispatch) {
-    return {
-        getLists: () => dispatch(getLists()),
-        addList: (label) => dispatch(addList(label))
-    };
-}
+Task.propTypes = propTypes;
 
-export default connect(null, mapDispatchToProps)(Task);
+export default Task;

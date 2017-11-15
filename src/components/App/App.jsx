@@ -2,7 +2,7 @@ import './App.scss';
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 import Header from '../Header/Header';
-import Lists from '../Lists/Lists';
+import Lists from '../ListsComponents/Lists/Lists';
 import {Route} from 'react-router-dom';
 import SignIn from '../User/SignIn';
 import SignUp from '../User/SignUp';

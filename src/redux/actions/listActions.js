@@ -21,7 +21,7 @@ export function getLists () {
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(getListsSuccess(response.data));
-                    return Promise.resolve(response.data);
+                    return Promise.resolve('success');
                 }
             })
             .catch(() => {
@@ -51,7 +51,7 @@ export function updateList (listId, label) {
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateListSuccess(response.data));
-                    return Promise.resolve(response.data);
+                    return Promise.resolve('success');
                 }
             })
             .catch(() => {
@@ -66,7 +66,7 @@ export function deleteList (listId) {
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(deleteListSuccess(response.data));
-                    return Promise.resolve(response.data);
+                    return Promise.resolve('success');
                 }
             })
             .catch(() => {

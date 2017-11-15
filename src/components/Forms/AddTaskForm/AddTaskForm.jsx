@@ -1,6 +1,6 @@
 import './AddTaskForm.scss';
 import React, { Component } from 'react';
-import {addTask} from '../../redux/actions/taskActions';
+import {addTask} from '../../../redux/actions/taskActions';
 import { connect } from 'react-redux';
 import EditForm from '../EditForm/EditForm';
 
@@ -11,10 +11,8 @@ class AddTaskForm extends Component {
             isExpanded: false
         };
     }
-    onAddTaskClick = (value) => {
-        this.props.addTask(value, this.props.listId).then(() => {
-            //
-        });
+    onAddTaskClick = (content) => {
+        this.props.addTask(this.props.listId, content);
     };
     toggleExpand = () => {
         this.setState({isExpanded: !this.state.isExpanded});
@@ -38,7 +36,7 @@ class AddTaskForm extends Component {
 
 function mapDispatchToProps (dispatch) {
     return {
-        addTask: (content) => dispatch(addTask(content))
+        addTask: (listId, content) => dispatch(addTask(listId, content))
     };
 }
 
