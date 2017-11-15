@@ -48,58 +48,60 @@ class List extends Component {
             style.backgroundColor = '#f5f5f5';
             style.borderRadius = '2px 2px 0 0';
         }
+        const expandedAddTaskForm = this.state.isExpanded &&
+            <div className="expanded">
+                <div className='list-tasks'>
+                    <Tasks listId={this.props.list.id}/>
+                </div>
+                <AddTaskForm
+                    listId = {this.props.list.id}
+                    onAddTaskClick={this.onAddTaskClick}
+                />
+            </div>;
+        const editForm = <EditForm
+            callbackConfirmClick={this.handleSaveNewLabelClick}
+            confirmButtonLabel={'Save'}
+            callbackCancelClick={this.handleCancelNewLabelClick}
+            cancelButtonLabel={'Cancel'}
+            defaultValue={this.props.list.label}
+        />;
+        const listHeader = <div className="list-header" style={style}>
+            <div className="left-area" onClick={this.onExpanding}>
+                {
+                    this.props.isExpanded
+                        ? <FontAwesome name="caret-down"/>
+                        : <FontAwesome name="caret-right"/>
+                }
+                <div className="list-header-text">
+                    <span>{this.props.list.label}</span>
+                </div>
+            </div>
+            <div className="right-area">
+                <div className="button-edit-wrap">
+                    <button onClick={this.onUpdating}>
+                        <FontAwesome
+                            name='pencil'
+                        />
+                    </button>
+                </div>
+                <div className="button-delete-wrap">
+                    <button onClick={this.handleDeleteListClick}>
+                        <FontAwesome
+                            name='trash'
+                        />
+                    </button>
+                </div>
+            </div>
+        </div>;
         return (
             <div className='List'>
                 {
                     this.state.isUpdating
-                        ? <EditForm
-                            callbackConfirmClick={this.handleSaveNewLabelClick}
-                            confirmButtonLabel={'Save'}
-                            callbackCancelClick={this.handleCancelNewLabelClick}
-                            cancelButtonLabel={'Cancel'}
-                            defaultValue={this.props.list.label}
-                        />
-                        : <div className="list-header" style={style}>
-                            <div className="left-area" onClick={this.onExpanding}>
-                                {
-                                    this.props.isExpanded
-                                        ? <FontAwesome name="caret-down"/>
-                                        : <FontAwesome name="caret-right"/>
-                                }
-                                <div className="list-header-text">
-                                    <span>{this.props.list.label}</span>
-                                </div>
-                            </div>
-                            <div className="right-area">
-                                <div className="button-edit-wrap">
-                                    <button onClick={this.onUpdating}>
-                                        <FontAwesome
-                                            name='pencil'
-                                        />
-                                    </button>
-                                </div>
-                                <div className="button-delete-wrap">
-                                    <button onClick={this.handleDeleteListClick}>
-                                        <FontAwesome
-                                            name='trash'
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        ? editForm
+                        : listHeader
                 }
                 {
-                    this.state.isExpanded
-                        ? <div className="expanded">
-                            <div className='list-tasks'>
-                                <Tasks listId={this.props.list.id}/>
-                            </div>
-                            <AddTaskForm
-                                listId = {this.props.list.id}
-                                onAddTaskClick={this.onAddTaskClick}
-                            />
-                        </div>
-                        : null
+                    expandedAddTaskForm
                 }
             </div>
         );

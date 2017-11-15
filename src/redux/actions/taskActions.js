@@ -37,7 +37,7 @@ export function addTask (listId, content) {
     return (dispatch) => {
         return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: getCredentials()})
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     dispatch(addTaskSuccess(response.data));
                     return Promise.resolve('success');
                 }
