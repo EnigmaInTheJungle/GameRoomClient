@@ -1,12 +1,18 @@
 import './App.scss';
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import {getLists} from '../../redux/actions/listActions';
 import Header from '../Header/Header';
 import Lists from '../ListsComponents/Lists/Lists';
+import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 import SignIn from '../User/SignIn';
 import SignUp from '../User/SignUp';
 import UserRequests from '../../requests/userRequests';
+
+const propTypes = {
+    getLists: PropTypes.func.isRequired
+};
 
 class App extends Component {
     constructor (props) {
@@ -25,7 +31,11 @@ class App extends Component {
         if (isLoggedIn === false) {
             this.props.history.replace('/sign_in');
         } else {
-            this.props.history.replace('/');
+            this.props.getLists().then(response => {
+                if (response === 'success') {
+                    this.props.history.replace('/');
+                }
+            });
         }
     };
     render () {
@@ -46,4 +56,12 @@ class App extends Component {
     }
 }
 
-export default App;
+App.propTypes = propTypes;
+
+function mapDispatchToProps (dispatch) {
+    return {
+        getLists: () => dispatch(getLists())
+    };
+}
+
+export default (connect(null, mapDispatchToProps)(App));
