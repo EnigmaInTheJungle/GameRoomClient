@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import Requests from '../../requests/requests';
 import {Url} from '../urls';
 
 export const GET_TASKS_SUCCESS = 'GET_TASKS_SUCCESS';
@@ -10,17 +10,9 @@ export const CHANGE_TASK_STATE_SUCCESS = 'CHANGE_TASK_STATE_SUCCESS';
 export const UP_TASK_POSITION_SUCCESS = 'UP_TASK_POSITION_SUCCESS';
 export const DOWN_TASK_POSITION_SUCCESS = 'DOWN_TASK_POSITION_SUCCESS';
 
-function getCredentials () {
-    let cookie = Cookies.get('auth_token');
-    if (cookie) {
-        return JSON.parse(cookie);
-    }
-    return {};
-}
-
 export function getTasks (listId) {
     return (dispatch) => {
-        return axios.get(Url + 'v1/list_tasks/' + listId, { headers: getCredentials() })
+        return axios.get(Url + 'v1/list_tasks/' + listId, { headers: Requests.getCredentials() })
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(getTasksSuccess(response.data));
@@ -35,7 +27,7 @@ export function getTasks (listId) {
 
 export function addTask (listId, content) {
     return (dispatch) => {
-        return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: getCredentials()})
+        return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: Requests.getCredentials()})
             .then((response) => {
                 if (response.status === 201) {
                     dispatch(addTaskSuccess(response.data));
@@ -50,7 +42,7 @@ export function addTask (listId, content) {
 
 export function updateTask (taskId, content) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + taskId, {task: {content: content}}, {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId, {task: {content: content}}, {headers: Requests.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateTaskSuccess(response.data));
@@ -65,7 +57,7 @@ export function updateTask (taskId, content) {
 
 export function deleteTask (taskId) {
     return (dispatch) => {
-        return axios.delete(Url + 'v1/tasks/' + taskId, {headers: getCredentials()})
+        return axios.delete(Url + 'v1/tasks/' + taskId, {headers: Requests.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(deleteTaskSuccess(response.data));
@@ -80,7 +72,7 @@ export function deleteTask (taskId) {
 
 export function changeTaskState (taskId) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + taskId + '/check', {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId + '/check', {}, {headers: Requests.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(changeTaskStateSuccess(response.data));
@@ -95,13 +87,11 @@ export function changeTaskState (taskId) {
 
 export function upTaskPosition (taskId) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + taskId + '/up', {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId + '/up', {}, {headers: Requests.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    taskPositionChanged(response.data.list_id).then(response => {
-                        dispatch(upTaskPositionSuccess(response));
-                        return Promise.resolve('success');
-                    });
+                    dispatch(upTaskPositionSuccess(response.data));
+                    return Promise.resolve('success');
                 }
             })
             .catch(() => {
@@ -112,13 +102,11 @@ export function upTaskPosition (taskId) {
 
 export function downTaskPosition (taskId) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + taskId + '/down', {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId + '/down', {}, {headers: Requests.getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    taskPositionChanged(response.data.list_id).then(response => {
-                        dispatch(downTaskPositionSuccess(response));
-                        return Promise.resolve('success');
-                    });
+                    dispatch(downTaskPositionSuccess(response.data));
+                    return Promise.resolve('success');
                 }
             })
             .catch(() => {
@@ -153,13 +141,4 @@ function upTaskPositionSuccess (tasks) {
 
 function downTaskPositionSuccess (tasks) {
     return { type: DOWN_TASK_POSITION_SUCCESS, payload: tasks };
-}
-
-function taskPositionChanged (listId) {
-    return axios.get(Url + 'v1/list_tasks/' + listId, { headers: getCredentials() })
-        .then((response) => {
-            if (response.status === 200) {
-                return Promise.resolve(response.data);
-            }
-        });
 }

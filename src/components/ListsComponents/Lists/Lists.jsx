@@ -25,7 +25,6 @@ const Lists = (props) => {
 
 Lists.propTypes = {
     lists: PropTypes.array.isRequired,
-    addList: PropTypes.func.isRequired,
     deleteList: PropTypes.func.isRequired,
     updateList: PropTypes.func.isRequired,
     getTasks: PropTypes.func.isRequired
