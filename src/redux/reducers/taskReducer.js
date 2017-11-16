@@ -21,6 +21,7 @@ export default function taskReducer (state = [], action) {
         return [_.reject(state, {list_id: action.listId}), ...action.payload];
     case DOWN_TASK_POSITION_SUCCESS:
         return [_.reject(state, {list_id: action.listId}), ...action.payload];
+    default:
+        return state;
     }
-    return state;
 }

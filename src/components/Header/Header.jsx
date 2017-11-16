@@ -2,17 +2,13 @@ import './Header.scss';
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
-import UserRequests from '../../requests/userRequests';
-import {withRouter} from 'react-router-dom';
 
 class Header extends Component {
     constructor (props) {
         super(props);
     }
     handleSignOutClick = () => {
-        UserRequests.signOut().then(() => {
-            this.props.onSessionChanged(false);
-        });
+        this.props.signOut();
     };
     render () {
         return (
@@ -24,7 +20,7 @@ class Header extends Component {
                 <strong>Simple ToDo List</strong>
                 <div className="sign-out-wrap">
                     {
-                        this.props.isLoggedIn
+                        this.props.isSignedIn
                             ? <a href="#" onClick={this.handleSignOutClick}>
                                 <FontAwesome
                                     className="sign-out-icon"
@@ -41,7 +37,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired
+    isSignedIn: PropTypes.bool.isRequired
 };
 
-export default withRouter(Header);
+export default Header;

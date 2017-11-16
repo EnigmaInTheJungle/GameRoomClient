@@ -1,8 +1,7 @@
 import './SignForm.scss';
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import UserRequests from '../../requests/userRequests';
-import {withRouter} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class SignIn extends Component {
     constructor (props) {
@@ -11,9 +10,7 @@ class SignIn extends Component {
     handleClick = () => {
         let email = this.refs.email.value;
         let password = this.refs.password.value;
-        UserRequests.signIn(email, password).then(() => {
-            this.props.onSessionChanged(true);
-        });
+        this.props.signIn(email, password);
     };
     render () {
         return (
@@ -30,4 +27,8 @@ class SignIn extends Component {
     }
 }
 
-export default withRouter(SignIn);
+SignIn.propsType = {
+    signIn: PropTypes.func.isRequired
+};
+
+export default SignIn;

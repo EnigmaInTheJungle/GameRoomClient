@@ -1,5 +1,6 @@
 import './App.scss';
 import React, { Component } from 'react';
+import {signIn, signOut, signUp, validateToken} from '../../redux/actions/userActions';
 import { connect } from 'react-redux';
 import {getLists} from '../../redux/actions/listActions';
 import Header from '../Header/Header';
@@ -8,60 +9,64 @@ import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 import SignIn from '../User/SignIn';
 import SignUp from '../User/SignUp';
-import UserRequests from '../../requests/userRequests';
-
-const propTypes = {
-    getLists: PropTypes.func.isRequired
-};
 
 class App extends Component {
     constructor (props) {
         super(props);
-        this.state = {
-            isLoggedIn: false
-        };
     }
     componentWillMount () {
-        UserRequests.validateToken().then((response) => {
-            this.onSessionChanged(response);
+        this.props.validateToken().then(() => {
+            if (this.props.isSignedIn) {
+                this.props.getLists().then(response => {
+                    if (response === 'success') {
+                        this.props.history.replace('/');
+                    }
+                });
+            } else {
+                this.props.history.replace('/sign_in');
+            }
         });
     }
-    onSessionChanged = (isLoggedIn) => {
-        this.setState({isLoggedIn: isLoggedIn});
-        if (isLoggedIn === false) {
-            this.props.history.replace('/sign_in');
-        } else {
-            this.props.getLists().then(response => {
-                if (response === 'success') {
-                    this.props.history.replace('/');
-                }
-            });
-        }
-    };
     render () {
         return (
             <div className='App'>
-                <Header isLoggedIn={this.state.isLoggedIn} onSessionChanged={this.onSessionChanged}/>
-                {
-                    this.state.isLoggedIn
-                        ? <Lists/>
-                        : null
-                }
+                <Header isSignedIn={this.props.isSignedIn} signOut={this.props.signOut}/>
+                {this.props.isSignedIn ? <Lists/> : <SignIn signIn={this.props.signIn}/>}
                 <div>
-                    <Route path="/sign_in" render={(props) => <SignIn {...props} onSessionChanged={this.onSessionChanged}/>} />
-                    <Route path="/sign_up" render={(props) => <SignUp {...props} onSessionChanged={this.onSessionChanged}/>} />
+                    <Route path="/sign_up" render={() => <SignUp signUp={this.props.signUp}/>} />
                 </div>
             </div>
         );
     }
 }
 
-App.propTypes = propTypes;
+App.propTypes = {
+    isSignedIn: PropTypes.bool.isRequired,
+    getLists: PropTypes.func.isRequired,
+    validateToken: PropTypes.func.isRequired,
+    signIn: PropTypes.func.isRequired,
+    signUp: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired
+};
 
-function mapDispatchToProps (dispatch) {
+App.defaultProps = {
+    isSignedIn: false
+};
+
+function mapStateToProps (state) {
     return {
-        getLists: () => dispatch(getLists())
+        isSignedIn: state.user.isSignedIn
     };
 }
 
-export default (connect(null, mapDispatchToProps)(App));
+function mapDispatchToProps (dispatch) {
+    return {
+        getLists: () => dispatch(getLists()),
+        validateToken: () => dispatch(validateToken()),
+        signIn: (email, password) => dispatch(signIn(email, password)),
+        signUp: (email, password, passwordConfirmation) => dispatch(signUp(email, password, passwordConfirmation)),
+        signOut: () => dispatch(signOut())
+    };
+}
+
+export default (connect(mapStateToProps, mapDispatchToProps)(App));

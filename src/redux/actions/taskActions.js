@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Requests from '../../requests/requests';
 import {Url} from '../urls';
 
 export const GET_TASKS_SUCCESS = 'GET_TASKS_SUCCESS';
@@ -11,8 +10,8 @@ export const UP_TASK_POSITION_SUCCESS = 'UP_TASK_POSITION_SUCCESS';
 export const DOWN_TASK_POSITION_SUCCESS = 'DOWN_TASK_POSITION_SUCCESS';
 
 export function getTasks (listId) {
-    return (dispatch) => {
-        return axios.get(Url + 'v1/list_tasks/' + listId, { headers: Requests.getCredentials() })
+    return (dispatch, getState) => {
+        return axios.get(Url + 'v1/list_tasks/' + listId, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(getTasksSuccess(response.data));
@@ -26,8 +25,8 @@ export function getTasks (listId) {
 }
 
 export function addTask (listId, content) {
-    return (dispatch) => {
-        return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 201) {
                     dispatch(addTaskSuccess(response.data));
@@ -41,8 +40,8 @@ export function addTask (listId, content) {
 }
 
 export function updateTask (task, content) {
-    return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id, {task: {content: content}}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.patch(Url + 'v1/tasks/' + task.id, {task: {content: content}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateTaskSuccess(response.data));
@@ -56,8 +55,8 @@ export function updateTask (task, content) {
 }
 
 export function deleteTask (task) {
-    return (dispatch) => {
-        return axios.delete(Url + 'v1/tasks/' + task.id, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.delete(Url + 'v1/tasks/' + task.id, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(deleteTaskSuccess(response.data));
@@ -71,8 +70,8 @@ export function deleteTask (task) {
 }
 
 export function changeTaskState (task) {
-    return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/check', {}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.patch(Url + 'v1/tasks/' + task.id + '/check', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(changeTaskStateSuccess(response.data));
@@ -86,8 +85,8 @@ export function changeTaskState (task) {
 }
 
 export function upTaskPosition (task) {
-    return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/up', {}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.patch(Url + 'v1/tasks/' + task.id + '/up', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(upTaskPositionSuccess(response.data, task.list_id));
@@ -101,8 +100,8 @@ export function upTaskPosition (task) {
 }
 
 export function downTaskPosition (task) {
-    return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/down', {}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.patch(Url + 'v1/tasks/' + task.id + '/down', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(downTaskPositionSuccess(response.data, task.list_id));

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Requests from '../../requests/requests';
 import {Url} from '../urls';
 
 export const GET_LISTS_SUCCESS = 'GET_LISTS_SUCCESS';
@@ -8,8 +7,8 @@ export const UPDATE_LIST_SUCCESS = 'UPDATE_LIST_SUCCESS';
 export const DELETE_LIST_SUCCESS = 'DELETE_LIST_SUCCESS';
 
 export function getLists () {
-    return (dispatch) => {
-        return axios.get(Url + 'v1/lists', { headers: Requests.getCredentials() })
+    return (dispatch, getState) => {
+        return axios.get(Url + 'v1/lists', { headers: getState().header })
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(getListsSuccess(response.data));
@@ -23,8 +22,8 @@ export function getLists () {
 }
 
 export function addList (label) {
-    return (dispatch) => {
-        return axios.post(Url + 'v1/lists', {list: { label: label }}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.post(Url + 'v1/lists', {list: { label: label }}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 201) {
                     dispatch(addListSuccess(response.data));
@@ -38,8 +37,8 @@ export function addList (label) {
 }
 
 export function updateList (listId, label) {
-    return (dispatch) => {
-        return axios.patch(Url + 'v1/lists/' + listId, {list: {label: label}}, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.patch(Url + 'v1/lists/' + listId, {list: {label: label}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateListSuccess(response.data));
@@ -53,8 +52,8 @@ export function updateList (listId, label) {
 }
 
 export function deleteList (listId) {
-    return (dispatch) => {
-        return axios.delete(Url + 'v1/lists/' + listId, {headers: Requests.getCredentials()})
+    return (dispatch, getState) => {
+        return axios.delete(Url + 'v1/lists/' + listId, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(deleteListSuccess(response.data));

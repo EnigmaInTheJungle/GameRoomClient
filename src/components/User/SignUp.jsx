@@ -1,7 +1,7 @@
 import './SignForm.scss';
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import UserRequests from '../../requests/userRequests';
+import PropTypes from 'prop-types';
 
 class SignUp extends Component {
     constructor (props) {
@@ -11,9 +11,7 @@ class SignUp extends Component {
         let email = this.refs.email.value;
         let password = this.refs.password.value;
         let passwordConfirmation = this.refs.pc.value;
-        UserRequests.signUp(email, password, passwordConfirmation).then(() => {
-            this.props.onSessionChanged(true);
-        });
+        this.props.signUp(email, password, passwordConfirmation);
     };
     render () {
         return (
@@ -30,5 +28,9 @@ class SignUp extends Component {
         );
     }
 }
+
+SignUp.propsType = {
+    signUp: PropTypes.func.isRequired
+};
 
 export default SignUp;
