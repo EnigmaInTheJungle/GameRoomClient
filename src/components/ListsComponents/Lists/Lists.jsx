@@ -7,14 +7,6 @@ import List from '../List/List';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const propTypes = {
-    lists: PropTypes.array.isRequired,
-    addList: PropTypes.func.isRequired,
-    deleteList: PropTypes.func.isRequired,
-    updateList: PropTypes.func.isRequired,
-    getTasks: PropTypes.func.isRequired
-};
-
 const Lists = (props) => {
     return (
         <div className="lists-wrap">
@@ -31,7 +23,13 @@ const Lists = (props) => {
     );
 };
 
-Lists.propTypes = propTypes;
+Lists.propTypes = {
+    lists: PropTypes.array.isRequired,
+    addList: PropTypes.func.isRequired,
+    deleteList: PropTypes.func.isRequired,
+    updateList: PropTypes.func.isRequired,
+    getTasks: PropTypes.func.isRequired
+};
 
 function mapStateToProps (state) {
     return {

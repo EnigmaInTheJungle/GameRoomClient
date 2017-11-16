@@ -5,16 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Task from '../Task/Task';
 
-const propTypes = {
-    tasks: PropTypes.array.isRequired,
-    listId: PropTypes.number.isRequired,
-    deleteTask: PropTypes.func.isRequired,
-    updateTask: PropTypes.func.isRequired,
-    changeTaskState: PropTypes.func.isRequired,
-    upTaskPosition: PropTypes.func.isRequired,
-    downTaskPosition: PropTypes.func.isRequired
-};
-
 const Tasks = (props) => {
     return (
         <div className="tasks-wrap">
@@ -34,7 +24,15 @@ const Tasks = (props) => {
     );
 };
 
-Tasks.propTypes = propTypes;
+Tasks.propTypes = {
+    tasks: PropTypes.array.isRequired,
+    listId: PropTypes.number.isRequired,
+    deleteTask: PropTypes.func.isRequired,
+    updateTask: PropTypes.func.isRequired,
+    changeTaskState: PropTypes.func.isRequired,
+    upTaskPosition: PropTypes.func.isRequired,
+    downTaskPosition: PropTypes.func.isRequired
+};
 
 function mapStateToProps (state) {
     return {
