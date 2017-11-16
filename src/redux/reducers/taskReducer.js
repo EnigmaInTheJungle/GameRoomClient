@@ -18,9 +18,9 @@ export default function taskReducer (state = [], action) {
     case CHANGE_TASK_STATE_SUCCESS:
         return [...state.map(task => task.id === action.payload.id ? action.payload : task)];
     case UP_TASK_POSITION_SUCCESS:
-        return [_.reject(state, {id: action.listId}), action.payload];
+        return [_.reject(state, {list_id: action.listId}), ...action.payload];
     case DOWN_TASK_POSITION_SUCCESS:
-        return [_.reject(state, {id: action.listId}), action.payload];
+        return [_.reject(state, {list_id: action.listId}), ...action.payload];
     }
     return state;
 }
