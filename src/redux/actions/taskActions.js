@@ -63,9 +63,9 @@ export function updateTask (taskId, content) {
     };
 }
 
-export function deleteTask (task) {
+export function deleteTask (taskId) {
     return (dispatch) => {
-        return axios.delete(Url + 'v1/tasks/' + task.id, {headers: getCredentials()})
+        return axios.delete(Url + 'v1/tasks/' + taskId, {headers: getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(deleteTaskSuccess(response.data));
@@ -78,9 +78,9 @@ export function deleteTask (task) {
     };
 }
 
-export function changeTaskState (task) {
+export function changeTaskState (taskId) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/check', {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId + '/check', {headers: getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(changeTaskStateSuccess(response.data));
@@ -93,13 +93,15 @@ export function changeTaskState (task) {
     };
 }
 
-export function upTaskPosition (task) {
+export function upTaskPosition (taskId) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/up', {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId + '/up', {headers: getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    dispatch(upTaskPositionSuccess(response.data));
-                    return Promise.resolve('success');
+                    taskPositionChanged(response.data.list_id).then(response => {
+                        dispatch(upTaskPositionSuccess(response));
+                        return Promise.resolve('success');
+                    });
                 }
             })
             .catch(() => {
@@ -108,13 +110,15 @@ export function upTaskPosition (task) {
     };
 }
 
-export function downTaskPosition (task) {
+export function downTaskPosition (taskId) {
     return (dispatch) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/down', {headers: getCredentials()})
+        return axios.patch(Url + 'v1/tasks/' + taskId + '/down', {headers: getCredentials()})
             .then((response) => {
                 if (response.status === 200) {
-                    dispatch(downTaskPositionSuccess(response.data));
-                    return Promise.resolve('success');
+                    taskPositionChanged(response.data.list_id).then(response => {
+                        dispatch(downTaskPositionSuccess(response));
+                        return Promise.resolve('success');
+                    });
                 }
             })
             .catch(() => {
@@ -143,10 +147,19 @@ function changeTaskStateSuccess (task) {
     return { type: CHANGE_TASK_STATE_SUCCESS, payload: task };
 }
 
-function upTaskPositionSuccess (task) {
-    return { type: UP_TASK_POSITION_SUCCESS, payload: task };
+function upTaskPositionSuccess (tasks) {
+    return { type: UP_TASK_POSITION_SUCCESS, payload: tasks };
 }
 
-function downTaskPositionSuccess (task) {
-    return { type: DOWN_TASK_POSITION_SUCCESS, payload: task };
+function downTaskPositionSuccess (tasks) {
+    return { type: DOWN_TASK_POSITION_SUCCESS, payload: tasks };
+}
+
+function taskPositionChanged (listId) {
+    return axios.get(Url + 'v1/list_tasks/' + listId, { headers: getCredentials() })
+        .then((response) => {
+            if (response.status === 200) {
+                return Promise.resolve(response.data);
+            }
+        });
 }

@@ -24,10 +24,10 @@ class Task extends Component {
         this.setState({isUpdating: true});
     };
     handleDeleteTaskClick = () => {
-        this.props.deleteTask(this.props.task);
+        this.props.deleteTask(this.props.task.id);
     };
     handleSaveNewContentClick = (value) => {
-        this.props.updateTask(this.props.task, value).then((response) => {
+        this.props.updateTask(this.props.task.id, value).then((response) => {
             if (response === 'success') {
                 this.setState({isUpdating: false});
             }
@@ -37,13 +37,13 @@ class Task extends Component {
         this.setState({isUpdating: false});
     };
     handleCheckTask = () => {
-        this.props.changeTaskState(this.props.task);
+        this.props.changeTaskState(this.props.task.id);
     };
     handleTaskUp = () => {
-        this.props.upTaskPosition(this.props.task);
+        this.props.upTaskPosition(this.props.task.id);
     };
     handleTaskDown = () => {
-        this.props.downTaskPosition(this.props.task);
+        this.props.downTaskPosition(this.props.task.id);
     };
     render () {
         return (

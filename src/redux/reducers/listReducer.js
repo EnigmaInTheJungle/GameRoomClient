@@ -8,9 +8,9 @@ export default function listReducer (state = [], action) {
     case ADD_LIST_SUCCESS:
         return [...state, action.payload];
     case UPDATE_LIST_SUCCESS:
-        return [...state, state.lists.map(list => list.id === action.payload.id ? action.payload : list)];
+        return [...state.map(list => list.id === action.payload.id ? action.payload : list)];
     case DELETE_LIST_SUCCESS:
-        return [...state, state.lists.filter(list => list.id !== action.payload)];
+        return [...state.filter(list => list.id !== action.payload.id)];
     }
     return state;
 }

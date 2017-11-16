@@ -11,15 +11,20 @@ export default function taskReducer (state = [], action) {
     case ADD_TASK_SUCCESS:
         return [...state, action.payload];
     case UPDATE_TASK_SUCCESS:
-        return [...state, state.tasks.map(task => task.id === action.payload.id ? action.payload : task)];
+        return [...state.map(task => task.id === action.payload.id ? action.payload : task)];
     case DELETE_TASK_SUCCESS:
-        return [...state, state.tasks.filter(task => task.id !== action.payload)];
+        return [...state.filter(task => task.id !== action.payload.id)];
     case CHANGE_TASK_STATE_SUCCESS:
-        return [...state, state.tasks.map(task => task.id === action.payload.id ? action.payload : task)];
+        return [...state.map(task => task.id === action.payload.id ? action.payload : task)];
     case UP_TASK_POSITION_SUCCESS:
-        return [...state, state.tasks.map(task => task.id === action.payload.id ? action.payload : task)];
+        return updatePositions([...state], [action.payload]);
     case DOWN_TASK_POSITION_SUCCESS:
-        return [...state, state.tasks.map(task => task.id === action.payload.id ? action.payload : task)];
+        return updatePositions([...state], [action.payload]);
     }
     return state;
+}
+
+function updatePositions (state, payload) {
+    let retState = state.filter(task => task.list_id !== payload[0][0].list_id);
+    return [...retState, ...payload[0]];
 }
