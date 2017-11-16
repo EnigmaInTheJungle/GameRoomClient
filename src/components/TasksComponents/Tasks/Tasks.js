@@ -42,11 +42,11 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        updateTask: (taskId, content) => dispatch(updateTask(taskId, content)),
-        deleteTask: (taskId) => dispatch(deleteTask(taskId)),
-        changeTaskState: (taskId) => dispatch(changeTaskState(taskId)),
-        upTaskPosition: (taskId) => dispatch(upTaskPosition(taskId)),
-        downTaskPosition: (taskId) => dispatch(downTaskPosition(taskId))
+        updateTask: (task, content) => dispatch(updateTask(task, content)),
+        deleteTask: (task) => dispatch(deleteTask(task)),
+        changeTaskState: (task) => dispatch(changeTaskState(task)),
+        upTaskPosition: (task) => dispatch(upTaskPosition(task)),
+        downTaskPosition: (task) => dispatch(downTaskPosition(task))
     };
 }
 

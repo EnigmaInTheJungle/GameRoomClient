@@ -3,6 +3,7 @@ import {
     GET_TASKS_SUCCESS, ADD_TASK_SUCCESS, UPDATE_TASK_SUCCESS, DELETE_TASK_SUCCESS,
     CHANGE_TASK_STATE_SUCCESS, UP_TASK_POSITION_SUCCESS, DOWN_TASK_POSITION_SUCCESS
 } from '../actions/taskActions';
+import _ from 'lodash';
 
 export default function taskReducer (state = [], action) {
     switch (action.type) {
@@ -17,14 +18,9 @@ export default function taskReducer (state = [], action) {
     case CHANGE_TASK_STATE_SUCCESS:
         return [...state.map(task => task.id === action.payload.id ? action.payload : task)];
     case UP_TASK_POSITION_SUCCESS:
-        return updatePositions([...state], [action.payload]);
+        return [_.reject(state, {id: action.listId}), action.payload];
     case DOWN_TASK_POSITION_SUCCESS:
-        return updatePositions([...state], [action.payload]);
+        return [_.reject(state, {id: action.listId}), action.payload];
     }
     return state;
-}
-
-function updatePositions (state, payload) {
-    let retState = state.filter(task => task.list_id !== payload[0][0].list_id);
-    return [...retState, ...payload[0]];
 }

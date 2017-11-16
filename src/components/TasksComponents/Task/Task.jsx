@@ -19,7 +19,7 @@ class Task extends Component {
         this.setState({isUpdating: false});
     };
     handleSaveNewContentClick = (value) => {
-        this.props.updateTask(this.props.task.id, value).then((response) => {
+        this.props.updateTask(this.props.task, value).then((response) => {
             if (response === 'success') {
                 this.setState({isUpdating: false});
             }
@@ -27,16 +27,16 @@ class Task extends Component {
     };
     // tasks handlers
     handleDeleteTaskClick = () => {
-        this.props.deleteTask(this.props.task.id);
+        this.props.deleteTask(this.props.task);
     };
     handleCheckTask = () => {
-        this.props.changeTaskState(this.props.task.id);
+        this.props.changeTaskState(this.props.task);
     };
     handleTaskUp = () => {
-        this.props.upTaskPosition(this.props.task.id);
+        this.props.upTaskPosition(this.props.task);
     };
     handleTaskDown = () => {
-        this.props.downTaskPosition(this.props.task.id);
+        this.props.downTaskPosition(this.props.task);
     };
     render () {
         const editForm = <EditForm
