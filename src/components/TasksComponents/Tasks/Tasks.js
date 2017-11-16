@@ -1,6 +1,6 @@
+import './Tasks.scss';
 import {deleteTask, updateTask, changeTaskState, upTaskPosition, downTaskPosition} from '../../../redux/actions/taskActions';
 import { connect } from 'react-redux';
-// import EditForm from 'EditForm/EditForm';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Task from '../Task/Task';

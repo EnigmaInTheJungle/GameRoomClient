@@ -1,7 +1,7 @@
 import './Lists.scss';
-import { addList, deleteList, updateList } from '../../../redux/actions/listActions';
+import { deleteList, updateList } from '../../../redux/actions/listActions';
+import AddList from '../AddList/AddList';
 import { connect } from 'react-redux';
-import EditForm from '../../Forms/EditForm/EditForm';
 import { getTasks } from '../../../redux/actions/taskActions';
 import List from '../List/List';
 import PropTypes from 'prop-types';
@@ -16,9 +16,6 @@ const propTypes = {
 };
 
 const Lists = (props) => {
-    const onAddListClick = (label) => {
-        props.addList(label);
-    };
     return (
         <div className="lists-wrap">
             <div className='lists'>
@@ -28,11 +25,7 @@ const Lists = (props) => {
                         getTasks={props.getTasks}
                         updateList={props.updateList}/>)
                 }
-                <EditForm
-                    callbackConfirmClick={onAddListClick}
-                    confirmButtonLabel={'Add list'}
-                    placeholder={'New list'}
-                />
+                <AddList/>
             </div>
         </div>
     );
@@ -48,7 +41,6 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        addList: (label) => dispatch(addList(label)),
         updateList: (listId, label) => dispatch(updateList(listId, label)),
         deleteList: (listId) => dispatch(deleteList(listId)),
         getTasks: (listId) => dispatch(getTasks(listId))

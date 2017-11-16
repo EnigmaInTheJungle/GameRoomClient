@@ -1,18 +1,11 @@
 import './List.scss';
 import './ListHeader.scss';
 import React, { Component } from 'react';
-import AddTaskForm from '../../Forms/AddTaskForm/AddTaskForm';
+import AddTask from '../../TasksComponents/AddTask/AddTask';
 import EditForm from '../../Forms/EditForm/EditForm';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
 import Tasks from '../../TasksComponents/Tasks/Tasks';
-
-const propTypes = {
-    list: PropTypes.object.isRequired,
-    deleteList: PropTypes.func.isRequired,
-    updateList: PropTypes.func.isRequired,
-    getTasks: PropTypes.func.isRequired
-};
 
 class List extends Component {
     constructor (props) {
@@ -48,15 +41,12 @@ class List extends Component {
             style.backgroundColor = '#f5f5f5';
             style.borderRadius = '2px 2px 0 0';
         }
-        const expandedAddTaskForm = this.state.isExpanded &&
+        const expandedAddTask = this.state.isExpanded &&
             <div className="expanded">
                 <div className='list-tasks'>
                     <Tasks listId={this.props.list.id}/>
                 </div>
-                <AddTaskForm
-                    listId = {this.props.list.id}
-                    onAddTaskClick={this.onAddTaskClick}
-                />
+                <AddTask listId = {this.props.list.id}/>
             </div>;
         const editForm = <EditForm
             callbackConfirmClick={this.handleSaveNewLabelClick}
@@ -95,19 +85,18 @@ class List extends Component {
         </div>;
         return (
             <div className='List'>
-                {
-                    this.state.isUpdating
-                        ? editForm
-                        : listHeader
-                }
-                {
-                    expandedAddTaskForm
-                }
+                {this.state.isUpdating ? editForm : listHeader}
+                {expandedAddTask}
             </div>
         );
     }
 }
 
-List.propTypes = propTypes;
+List.propTypes = {
+    list: PropTypes.object.isRequired,
+    deleteList: PropTypes.func.isRequired,
+    updateList: PropTypes.func.isRequired,
+    getTasks: PropTypes.func.isRequired
+};
 
 export default List;

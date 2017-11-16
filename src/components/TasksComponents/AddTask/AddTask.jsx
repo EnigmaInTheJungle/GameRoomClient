@@ -1,10 +1,11 @@
-import './AddTaskForm.scss';
+import './AddTask.scss';
 import React, { Component } from 'react';
 import {addTask} from '../../../redux/actions/taskActions';
 import { connect } from 'react-redux';
-import EditForm from '../EditForm/EditForm';
+import EditForm from '../../Forms/EditForm/EditForm';
+import PropTypes from 'prop-types';
 
-class AddTaskForm extends Component {
+class AddTask extends Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -34,10 +35,14 @@ class AddTaskForm extends Component {
     }
 }
 
+AddTask.propsType = {
+    addTask: PropTypes.func.isRequired
+};
+
 function mapDispatchToProps (dispatch) {
     return {
         addTask: (listId, content) => dispatch(addTask(listId, content))
     };
 }
 
-export default connect(null, mapDispatchToProps)(AddTaskForm);
+export default connect(null, mapDispatchToProps)(AddTask);
