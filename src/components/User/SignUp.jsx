@@ -1,7 +1,9 @@
 import './SignForm.scss';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {signUp} from '../../redux/actions/userActions';
 
 class SignUp extends Component {
     constructor (props) {
@@ -33,4 +35,10 @@ SignUp.propsType = {
     signUp: PropTypes.func.isRequired
 };
 
-export default SignUp;
+function mapDispatchToProps (dispatch) {
+    return {
+        signUp: (email, password, passwordConfirmation) => dispatch(signUp(email, password, passwordConfirmation))
+    };
+}
+
+export default connect(null, mapDispatchToProps)(SignUp);

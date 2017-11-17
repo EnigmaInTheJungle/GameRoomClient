@@ -62,16 +62,17 @@ export function signOut () {
 
 export function validateToken () {
     return (dispatch) => {
-        return axios.get(Url + 'auth/validate_token', {headers: Cookies.get('auth-token')})
+        return axios.get(Url + 'auth/validate_token', {headers: Cookies.getJSON('auth-token')})
             .then((response) => {
                 if (response.status === 200) {
-                    dispatch(validationTokenSuccess(response.data.success));
+                    dispatch(updateHeaderClient(response.headers));
+                    dispatch(signInSuccess());
                     return Promise.resolve('success');
                 }
             })
-            .catch((error) => {
-                dispatch(validationTokenError(error.response.data.success));
-                return Promise.resolve('error');
+            .catch(() => {
+                dispatch(validationTokenError(false));
+                return Promise.reject('error');
             });
     };
 }

@@ -1,39 +1,29 @@
 import './App.scss';
 import React, { Component } from 'react';
-import {signIn, signOut, signUp, validateToken} from '../../redux/actions/userActions';
-import { connect } from 'react-redux';
-import {getLists} from '../../redux/actions/listActions';
+import {connect} from 'react-redux';
 import Header from '../Header/Header';
 import Lists from '../ListsComponents/Lists/Lists';
 import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 import SignIn from '../User/SignIn';
 import SignUp from '../User/SignUp';
+import {validateToken} from '../../redux/actions/userActions';
 
 class App extends Component {
     constructor (props) {
         super(props);
     }
     componentWillMount () {
-        this.props.validateToken().then(() => {
-            if (this.props.isSignedIn) {
-                this.props.getLists().then(response => {
-                    if (response === 'success') {
-                        this.props.history.replace('/');
-                    }
-                });
-            } else {
-                this.props.history.replace('/sign_in');
-            }
-        });
+        this.props.validateToken().catch(this.props.history.push('/sign_in'));
     }
     render () {
         return (
             <div className='App'>
-                <Header isSignedIn={this.props.isSignedIn} signOut={this.props.signOut}/>
-                {this.props.isSignedIn ? <Lists/> : <SignIn signIn={this.props.signIn}/>}
+                <Header isSignedIn={this.props.isSignedIn}/>
+                {this.props.isSignedIn && <Lists/>}
                 <div>
-                    <Route path="/sign_up" render={() => <SignUp signUp={this.props.signUp}/>} />
+                    <Route path="/sign_in" component={SignIn}/>
+                    <Route path="/sign_up" component={SignUp}/>
                 </div>
             </div>
         );
@@ -42,11 +32,7 @@ class App extends Component {
 
 App.propTypes = {
     isSignedIn: PropTypes.bool.isRequired,
-    getLists: PropTypes.func.isRequired,
-    validateToken: PropTypes.func.isRequired,
-    signIn: PropTypes.func.isRequired,
-    signUp: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired
+    validateToken: PropTypes.func.isRequired
 };
 
 App.defaultProps = {
@@ -61,11 +47,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        getLists: () => dispatch(getLists()),
-        validateToken: () => dispatch(validateToken()),
-        signIn: (email, password) => dispatch(signIn(email, password)),
-        signUp: (email, password, passwordConfirmation) => dispatch(signUp(email, password, passwordConfirmation)),
-        signOut: () => dispatch(signOut())
+        validateToken: () => dispatch(validateToken())
     };
 }
 

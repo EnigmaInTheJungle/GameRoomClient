@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {updateHeaderClient} from './headerActions';
 import {Url} from '../urls';
 
 export const GET_TASKS_SUCCESS = 'GET_TASKS_SUCCESS';
@@ -14,6 +15,7 @@ export function getTasks (listId) {
         return axios.get(Url + 'v1/list_tasks/' + listId, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(getTasksSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -29,6 +31,7 @@ export function addTask (listId, content) {
         return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 201) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(addTaskSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -44,6 +47,7 @@ export function updateTask (task, content) {
         return axios.patch(Url + 'v1/tasks/' + task.id, {task: {content: content}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(updateTaskSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -59,6 +63,7 @@ export function deleteTask (task) {
         return axios.delete(Url + 'v1/tasks/' + task.id, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(deleteTaskSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -74,6 +79,7 @@ export function changeTaskState (task) {
         return axios.patch(Url + 'v1/tasks/' + task.id + '/check', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(changeTaskStateSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -89,6 +95,7 @@ export function upTaskPosition (task) {
         return axios.patch(Url + 'v1/tasks/' + task.id + '/up', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(upTaskPositionSuccess(response.data, task.list_id));
                     return Promise.resolve('success');
                 }
@@ -104,6 +111,7 @@ export function downTaskPosition (task) {
         return axios.patch(Url + 'v1/tasks/' + task.id + '/down', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(downTaskPositionSuccess(response.data, task.list_id));
                     return Promise.resolve('success');
                 }

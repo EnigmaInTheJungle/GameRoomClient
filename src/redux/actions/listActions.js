@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {updateHeaderClient} from './headerActions';
 import {Url} from '../urls';
 
 export const GET_LISTS_SUCCESS = 'GET_LISTS_SUCCESS';
@@ -11,6 +12,7 @@ export function getLists () {
         return axios.get(Url + 'v1/lists', { headers: getState().header })
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(getListsSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -26,6 +28,7 @@ export function addList (label) {
         return axios.post(Url + 'v1/lists', {list: { label: label }}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 201) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(addListSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -41,6 +44,7 @@ export function updateList (listId, label) {
         return axios.patch(Url + 'v1/lists/' + listId, {list: {label: label}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(updateListSuccess(response.data));
                     return Promise.resolve('success');
                 }
@@ -56,6 +60,7 @@ export function deleteList (listId) {
         return axios.delete(Url + 'v1/lists/' + listId, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
+                    dispatch(updateHeaderClient(response.headers));
                     dispatch(deleteListSuccess(response.data));
                     return Promise.resolve('success');
                 }

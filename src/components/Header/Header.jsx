@@ -1,7 +1,9 @@
 import './Header.scss';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
+import {signOut} from '../../redux/actions/userActions';
 
 class Header extends Component {
     constructor (props) {
@@ -37,7 +39,14 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    isSignedIn: PropTypes.bool.isRequired
+    isSignedIn: PropTypes.bool.isRequired,
+    signOut: PropTypes.func.isRequired
 };
 
-export default Header;
+function mapDispatchToProps (dispatch) {
+    return {
+        signOut: () => dispatch(signOut())
+    };
+}
+
+export default connect(null, mapDispatchToProps)(Header);
