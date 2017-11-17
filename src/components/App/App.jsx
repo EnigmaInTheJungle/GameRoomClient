@@ -14,15 +14,14 @@ class App extends Component {
         super(props);
     }
     componentWillMount () {
-        this.props.validateToken().catch(this.props.history.push('/sign_in'));
+        this.props.validateToken();
     }
     render () {
         return (
             <div className='App'>
                 <Header isSignedIn={this.props.isSignedIn}/>
-                {this.props.isSignedIn && <Lists/>}
+                {this.props.isSignedIn ? <Lists/> : <SignIn/>}
                 <div>
-                    <Route path="/sign_in" component={SignIn}/>
                     <Route path="/sign_up" component={SignUp}/>
                 </div>
             </div>

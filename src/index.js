@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore } from 'redux';
-import { BrowserRouter, Route } from 'react-router-dom';
 import App from './components/App/App';
+import { BrowserRouter } from 'react-router-dom';
 import combineReducers from './redux/reducers/combineReducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
@@ -13,7 +13,7 @@ const store = createStore(combineReducers, composeWithDevTools(applyMiddleware(t
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <Route path="/" component={App} />
+            <App />
         </BrowserRouter>
     </Provider>,
     document.getElementById('root')

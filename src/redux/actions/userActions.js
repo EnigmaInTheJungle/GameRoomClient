@@ -64,15 +64,15 @@ export function validateToken () {
     return (dispatch) => {
         return axios.get(Url + 'auth/validate_token', {headers: Cookies.getJSON('auth-token')})
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === 200 || response.status === 304) {
                     dispatch(updateHeaderClient(response.headers));
                     dispatch(signInSuccess());
                     return Promise.resolve('success');
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 dispatch(validationTokenError(false));
-                return Promise.reject('error');
+                return Promise.reject(error);
             });
     };
 }
