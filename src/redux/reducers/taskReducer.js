@@ -4,6 +4,7 @@ import {
     CHANGE_TASK_STATE_SUCCESS, UP_TASK_POSITION_SUCCESS, DOWN_TASK_POSITION_SUCCESS
 } from '../actions/taskActions';
 import _ from 'lodash';
+import {SIGN_OUT_SUCCESS} from '../actions/userActions';
 
 export default function taskReducer (state = [], action) {
     switch (action.type) {
@@ -21,6 +22,8 @@ export default function taskReducer (state = [], action) {
         return [_.reject(state, {list_id: action.listId}), ...action.payload];
     case DOWN_TASK_POSITION_SUCCESS:
         return [_.reject(state, {list_id: action.listId}), ...action.payload];
+    case SIGN_OUT_SUCCESS:
+        return [];
     default:
         return state;
     }

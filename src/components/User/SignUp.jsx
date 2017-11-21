@@ -1,7 +1,7 @@
 import './SignForm.scss';
+import {Link, Redirect} from 'react-router-dom';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {signUp} from '../../redux/actions/userActions';
 
@@ -16,24 +16,32 @@ class SignUp extends Component {
         this.props.signUp(email, password, passwordConfirmation);
     };
     render () {
-        return (
-            <div className='sign-form-wrap'>
-                <div className="sign-form">
-                    <strong>Sign up</strong>
-                    <input name='email' type="email" placeholder="Email" ref="email"/>
-                    <input type="password" placeholder="Password" ref="password"/>
-                    <input type="password" placeholder="Confirm password" ref="pc"/>
-                    <button onClick={this.handleClick}>Sign up</button>
-                    <p>Already account? <Link to="/sign_in">Sign in</Link></p>
-                </div>
+        const signUpFrom = <div className='sign-form-wrap'>
+            <div className="sign-form">
+                <strong>Sign up</strong>
+                <input name='email' type="email" placeholder="Email" ref="email"/>
+                <input type="password" placeholder="Password" ref="password"/>
+                <input type="password" placeholder="Confirm password" ref="pc"/>
+                <button onClick={this.handleClick}>Sign up</button>
+                <p>Already account? <Link to="/sign_in">Sign in</Link></p>
             </div>
-        );
+        </div>;
+        return this.props.isSignedIn || this.props.isPending ? <Redirect to='/' /> : signUpFrom;
     }
 }
 
 SignUp.propsType = {
-    signUp: PropTypes.func.isRequired
+    signUp: PropTypes.func.isRequired,
+    isSignedIn: PropTypes.bool.isRequired,
+    isPending: PropTypes.bool.isRequired
 };
+
+function mapStateToProps (state) {
+    return {
+        isSignedIn: state.user.isSignedIn,
+        isPending: state.user.isPending
+    };
+}
 
 function mapDispatchToProps (dispatch) {
     return {
@@ -41,4 +49,4 @@ function mapDispatchToProps (dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

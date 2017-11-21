@@ -8,9 +8,11 @@ export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS';
 export const VALIDATION_TOKEN_SUCCESS = 'VALIDATION_TOKEN_SUCCESS';
 export const VALIDATION_TOKEN_ERROR = 'VALIDATION_TOKEN_ERROR';
+export const PENDING_VALIDATING_TOKEN = 'PENDING_VALIDATING_TOKEN';
 
 export function signIn (email, password) {
     return (dispatch) => {
+        dispatch(pendingValidateToken());
         return axios.post(Url + 'auth/sign_in', {email: email, password: password})
             .then((response) => {
                 if (response.status === 200) {
@@ -27,6 +29,7 @@ export function signIn (email, password) {
 
 export function signUp (email, password, passwordConfirmation) {
     return (dispatch) => {
+        dispatch(pendingValidateToken());
         return axios.post(Url + 'auth', {
             email: email,
             password: password,
@@ -39,7 +42,7 @@ export function signUp (email, password, passwordConfirmation) {
                 return Promise.resolve('success');
             }
         }).catch(function (error) {
-            return Promise.resolve(error);
+            return Promise.reject(error);
         });
     };
 }
@@ -62,23 +65,30 @@ export function signOut () {
 
 export function validateToken () {
     return (dispatch) => {
-        return axios.get(Url + 'auth/validate_token', {headers: Cookies.getJSON('auth-token')})
-            .then((response) => {
-                if (response.status === 200 || response.status === 304) {
-                    dispatch(updateHeaderClient(response.headers));
-                    dispatch(signInSuccess());
-                    return Promise.resolve('success');
-                }
-            })
-            .catch((error) => {
-                dispatch(validationTokenError(false));
-                return Promise.reject(error);
-            });
+        const headers = Cookies.getJSON('auth-token');
+        dispatch(pendingValidateToken());
+        if (headers) {
+            dispatch(updateHeaderClient(headers));
+            return axios.get(Url + 'auth/validate_token', {headers: headers})
+                .then((response) => {
+                    if (response.status === 200 || response.status === 304) {
+                        dispatch(updateHeaderClient(response.headers));
+                        dispatch(signInSuccess());
+                        return Promise.resolve('success');
+                    }
+                })
+                .catch((error) => {
+                    dispatch(validationTokenError(false));
+                    return Promise.reject(error);
+                });
+        } else {
+            dispatch(validationTokenError());
+        }
     };
 }
 
 export function signInSuccess () {
-    return { type: SIGN_IN_SUCCESS, payload: {} };
+    return { type: SIGN_IN_SUCCESS};
 }
 
 export function validationTokenSuccess (data) {
@@ -90,9 +100,13 @@ export function validationTokenError (data) {
 }
 
 export function signOutSuccess () {
-    return { type: SIGN_OUT_SUCCESS, payload: {} };
+    return { type: SIGN_OUT_SUCCESS };
 }
 
 export function signUpSuccess () {
-    return { type: SIGN_UP_SUCCESS, payload: {} };
+    return { type: SIGN_UP_SUCCESS};
+}
+
+export function pendingValidateToken () {
+    return { type: PENDING_VALIDATING_TOKEN};
 }

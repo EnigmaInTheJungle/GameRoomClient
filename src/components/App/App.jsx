@@ -1,10 +1,11 @@
 import './App.scss';
 import React, { Component } from 'react';
+import {Route, withRouter} from 'react-router-dom';
+import AuthRoute from '../User/AuthRoute';
 import {connect} from 'react-redux';
 import Header from '../Header/Header';
 import Lists from '../ListsComponents/Lists/Lists';
 import PropTypes from 'prop-types';
-import {Route} from 'react-router-dom';
 import SignIn from '../User/SignIn';
 import SignUp from '../User/SignUp';
 import {validateToken} from '../../redux/actions/userActions';
@@ -20,10 +21,9 @@ class App extends Component {
         return (
             <div className='App'>
                 <Header isSignedIn={this.props.isSignedIn}/>
-                {this.props.isSignedIn ? <Lists/> : <SignIn/>}
-                <div>
-                    <Route path="/sign_up" component={SignUp}/>
-                </div>
+                <Route path="/sign_up" component={SignUp} />
+                <Route path="/sign_in" component={SignIn} />
+                <AuthRoute path="/" component={Lists} />
             </div>
         );
     }
@@ -50,4 +50,4 @@ function mapDispatchToProps (dispatch) {
     };
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
