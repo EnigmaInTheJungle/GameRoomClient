@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import AddList from '../AddList/AddList';
 import { connect } from 'react-redux';
 import { getTasks } from '../../../redux/actions/taskActions';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import List from '../List/List';
 import PropTypes from 'prop-types';
 
@@ -18,8 +19,8 @@ class Lists extends Component {
         return (
             <div className="lists-wrap">
                 <div className='lists'>
-                    {this.props.lists.map((list) =>
-                        <List key={list.id} list={list}
+                    {this.props.lists.map((v, k) =>
+                        <List key={k} list={v}
                             deleteList={this.props.deleteList}
                             getTasks={this.props.getTasks}
                             updateList={this.props.updateList}/>)
@@ -32,7 +33,7 @@ class Lists extends Component {
 }
 
 Lists.propTypes = {
-    lists: PropTypes.array.isRequired,
+    lists: ImmutablePropTypes.map.isRequired,
     getLists: PropTypes.func.isRequired,
     deleteList: PropTypes.func.isRequired,
     updateList: PropTypes.func.isRequired,

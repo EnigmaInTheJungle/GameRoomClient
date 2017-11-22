@@ -16,7 +16,7 @@ export function getTasks (listId) {
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
-                    dispatch(getTasksSuccess(response.data));
+                    dispatch(getTasksSuccess(response.data, listId));
                     return Promise.resolve('success');
                 }
             })
@@ -122,8 +122,8 @@ export function downTaskPosition (task) {
     };
 }
 
-function getTasksSuccess (tasks) {
-    return { type: GET_TASKS_SUCCESS, payload: tasks };
+function getTasksSuccess (tasks, listId) {
+    return { type: GET_TASKS_SUCCESS, payload: tasks, listId: listId };
 }
 
 function addTaskSuccess (task) {

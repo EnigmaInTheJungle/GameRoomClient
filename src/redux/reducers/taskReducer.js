@@ -3,28 +3,38 @@ import {
     GET_TASKS_SUCCESS, ADD_TASK_SUCCESS, UPDATE_TASK_SUCCESS, DELETE_TASK_SUCCESS,
     CHANGE_TASK_STATE_SUCCESS, UP_TASK_POSITION_SUCCESS, DOWN_TASK_POSITION_SUCCESS
 } from '../actions/taskActions';
-import _ from 'lodash';
+import { Map } from 'immutable';
 import {SIGN_OUT_SUCCESS} from '../actions/userActions';
 
-export default function taskReducer (state = [], action) {
+const initialState = Map({});
+
+export default function taskReducer (state = initialState, action) {
     switch (action.type) {
     case GET_TASKS_SUCCESS:
-        return [...state, ...action.payload];
+        return setTasksMap(state, action.payload, action.listId);
     case ADD_TASK_SUCCESS:
-        return [...state, action.payload];
+        return state.setIn([action.payload.listId, action.payload.id], action.payload);
     case UPDATE_TASK_SUCCESS:
-        return [...state.map(task => task.id === action.payload.id ? action.payload : task)];
+        return state.setIn([action.payload.listId, action.payload.id], action.payload);
     case DELETE_TASK_SUCCESS:
-        return [...state.filter(task => task.id !== action.payload.id)];
+        return state.deleteIn([action.payload.listId, action.payload.id]);
     case CHANGE_TASK_STATE_SUCCESS:
-        return [...state.map(task => task.id === action.payload.id ? action.payload : task)];
+        return state.setIn([action.payload.listId, action.payload.id], action.payload);
     case UP_TASK_POSITION_SUCCESS:
-        return [_.reject(state, {list_id: action.listId}), ...action.payload];
+        return setTasksMap(state, action.payload, action.listId);
     case DOWN_TASK_POSITION_SUCCESS:
-        return [_.reject(state, {list_id: action.listId}), ...action.payload];
+        return setTasksMap(state, action.payload, action.listId);
     case SIGN_OUT_SUCCESS:
-        return [];
+        return initialState;
     default:
         return state;
     }
+}
+
+function setTasksMap (state, tasks, listId) {
+    let tasksMap = new Map();
+    tasks.forEach(task => {
+        tasksMap = tasksMap.set(task.id, task);
+    });
+    return state.set(listId, tasksMap);
 }
