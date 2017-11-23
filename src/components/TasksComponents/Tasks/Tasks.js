@@ -7,11 +7,12 @@ import React from 'react';
 import Task from '../Task/Task';
 
 const Tasks = (props) => {
+    const downerPosition = props.tasks.get(props.listId).size;
     return (
         <div className="tasks-wrap">
             <div className='tasks'>
                 {props.tasks.get(props.listId).map((v, k) =>
-                    <Task key={k} task={v}
+                    <Task key={k} task={v} downerPosition={downerPosition}
                         deleteTask={props.deleteTask}
                         updateTask={props.updateTask}
                         changeTaskState={props.changeTaskState}

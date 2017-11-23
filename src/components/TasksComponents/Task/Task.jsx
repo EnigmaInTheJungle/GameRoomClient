@@ -33,10 +33,14 @@ class Task extends Component {
         this.props.changeTaskState(this.props.task);
     };
     handleTaskUp = () => {
-        this.props.upTaskPosition(this.props.task);
+        if (this.props.task.position !== 1) {
+            this.props.upTaskPosition(this.props.task);
+        }
     };
     handleTaskDown = () => {
-        this.props.downTaskPosition(this.props.task);
+        if (this.props.task.position !== this.props.downerPosition) {
+            this.props.downTaskPosition(this.props.task);
+        }
     };
     render () {
         const editForm = <EditForm
@@ -90,7 +94,8 @@ Task.propTypes = {
     updateTask: PropTypes.func.isRequired,
     changeTaskState: PropTypes.func.isRequired,
     upTaskPosition: PropTypes.func.isRequired,
-    downTaskPosition: PropTypes.func.isRequired
+    downTaskPosition: PropTypes.func.isRequired,
+    downerPosition: PropTypes.number.isRequired
 };
 
 export default Task;
