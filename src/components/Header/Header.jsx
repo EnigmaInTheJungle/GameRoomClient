@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
 import {signOut} from '../../redux/actions/userActions';
 
-class Header extends Component {
+export class Header extends Component {
     constructor (props) {
         super(props);
     }

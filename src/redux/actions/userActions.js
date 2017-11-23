@@ -10,6 +10,7 @@ export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS';
 export const VALIDATION_TOKEN_SUCCESS = 'VALIDATION_TOKEN_SUCCESS';
 export const VALIDATION_TOKEN_ERROR = 'VALIDATION_TOKEN_ERROR';
 export const PENDING_VALIDATING_TOKEN = 'PENDING_VALIDATING_TOKEN';
+export const SIGN_OUT_ERROR = 'SIGN_OUT_ERROR';
 
 export function signIn (email, password) {
     return (dispatch) => {
@@ -59,6 +60,7 @@ export function signOut () {
                 }
             })
             .catch(function (error) {
+                dispatch({ type: SIGN_OUT_ERROR});
                 return Promise.resolve(error);
             });
     };
