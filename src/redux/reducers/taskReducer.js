@@ -13,13 +13,13 @@ export default function taskReducer (state = initialState, action) {
     case GET_TASKS_SUCCESS:
         return setTasksMap(state, action.payload, action.listId);
     case ADD_TASK_SUCCESS:
-        return state.setIn([action.payload.listId, action.payload.id], action.payload);
+        return state.setIn([action.payload.list_id, action.payload.id], action.payload);
     case UPDATE_TASK_SUCCESS:
-        return state.setIn([action.payload.listId, action.payload.id], action.payload);
+        return state.setIn([action.payload.list_id, action.payload.id], action.payload);
     case DELETE_TASK_SUCCESS:
-        return state.deleteIn([action.payload.listId, action.payload.id]);
+        return state.deleteIn([action.payload.list_id, action.payload.id]);
     case CHANGE_TASK_STATE_SUCCESS:
-        return state.setIn([action.payload.listId, action.payload.id], action.payload);
+        return state.setIn([action.payload.list_id, action.payload.id], action.payload);
     case UP_TASK_POSITION_SUCCESS:
         return setTasksMap(state, action.payload, action.listId);
     case DOWN_TASK_POSITION_SUCCESS:
