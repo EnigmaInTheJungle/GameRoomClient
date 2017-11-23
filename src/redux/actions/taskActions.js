@@ -1,3 +1,4 @@
+import {CurrentVersion, TasksPath} from '../routes';
 import axios from 'axios';
 import {updateHeaderClient} from './headerActions';
 import {Url} from '../urls';
@@ -12,7 +13,7 @@ export const DOWN_TASK_POSITION_SUCCESS = 'DOWN_TASK_POSITION_SUCCESS';
 
 export function getTasks (listId) {
     return (dispatch, getState) => {
-        return axios.get(Url + 'v1/list_tasks/' + listId, {headers: getState().header})
+        return axios.get(Url + CurrentVersion + '/list_tasks/' + listId, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -28,7 +29,7 @@ export function getTasks (listId) {
 
 export function addTask (listId, content) {
     return (dispatch, getState) => {
-        return axios.post(Url + 'v1/tasks', {task: {list_id: listId, content: content}}, {headers: getState().header})
+        return axios.post(Url + CurrentVersion + '/' + TasksPath, {task: {list_id: listId, content: content}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 201) {
                     dispatch(updateHeaderClient(response.headers));
@@ -44,7 +45,7 @@ export function addTask (listId, content) {
 
 export function updateTask (task, content) {
     return (dispatch, getState) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id, {task: {content: content}}, {headers: getState().header})
+        return axios.patch(Url + CurrentVersion + '/' + TasksPath + '/' + task.id, {task: {content: content}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -60,7 +61,7 @@ export function updateTask (task, content) {
 
 export function deleteTask (task) {
     return (dispatch, getState) => {
-        return axios.delete(Url + 'v1/tasks/' + task.id, {headers: getState().header})
+        return axios.delete(Url + CurrentVersion + '/' + TasksPath + '/' + task.id, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -76,7 +77,7 @@ export function deleteTask (task) {
 
 export function changeTaskState (task) {
     return (dispatch, getState) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/check', {}, {headers: getState().header})
+        return axios.patch(Url + CurrentVersion + '/' + TasksPath + '/' + task.id + '/check', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -92,7 +93,7 @@ export function changeTaskState (task) {
 
 export function upTaskPosition (task) {
     return (dispatch, getState) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/up', {}, {headers: getState().header})
+        return axios.patch(Url + CurrentVersion + '/' + TasksPath + '/' + task.id + '/up', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -108,7 +109,7 @@ export function upTaskPosition (task) {
 
 export function downTaskPosition (task) {
     return (dispatch, getState) => {
-        return axios.patch(Url + 'v1/tasks/' + task.id + '/down', {}, {headers: getState().header})
+        return axios.patch(Url + CurrentVersion + '/' + TasksPath + '/' + task.id + '/down', {}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));

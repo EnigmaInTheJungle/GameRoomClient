@@ -1,3 +1,4 @@
+import {CurrentVersion, ListsPath} from '../routes';
 import axios from 'axios';
 import {updateHeaderClient} from './headerActions';
 import {Url} from '../urls';
@@ -9,7 +10,7 @@ export const DELETE_LIST_SUCCESS = 'DELETE_LIST_SUCCESS';
 
 export function getLists () {
     return (dispatch, getState) => {
-        return axios.get(Url + 'v1/lists', { headers: getState().header })
+        return axios.get(Url + CurrentVersion + '/' + ListsPath, { headers: getState().header })
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -25,7 +26,7 @@ export function getLists () {
 
 export function addList (label) {
     return (dispatch, getState) => {
-        return axios.post(Url + 'v1/lists', {list: { label: label }}, {headers: getState().header})
+        return axios.post(Url + CurrentVersion + '/' + ListsPath, {list: { label: label }}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 201) {
                     dispatch(updateHeaderClient(response.headers));
@@ -41,7 +42,7 @@ export function addList (label) {
 
 export function updateList (listId, label) {
     return (dispatch, getState) => {
-        return axios.patch(Url + 'v1/lists/' + listId, {list: {label: label}}, {headers: getState().header})
+        return axios.patch(Url + CurrentVersion + '/' + ListsPath + '/' + listId, {list: {label: label}}, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -57,7 +58,7 @@ export function updateList (listId, label) {
 
 export function deleteList (listId) {
     return (dispatch, getState) => {
-        return axios.delete(Url + 'v1/lists/' + listId, {headers: getState().header})
+        return axios.delete(Url + CurrentVersion + '/' + ListsPath + '/' + listId, {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));

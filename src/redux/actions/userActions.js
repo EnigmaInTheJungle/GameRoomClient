@@ -1,3 +1,4 @@
+import {AuthPath} from '../routes';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {updateHeaderClient} from './headerActions';
@@ -13,7 +14,7 @@ export const PENDING_VALIDATING_TOKEN = 'PENDING_VALIDATING_TOKEN';
 export function signIn (email, password) {
     return (dispatch) => {
         dispatch(pendingValidateToken());
-        return axios.post(Url + 'auth/sign_in', {email: email, password: password})
+        return axios.post(Url + AuthPath + '/sign_in', {email: email, password: password})
             .then((response) => {
                 if (response.status === 200) {
                     dispatch(updateHeaderClient(response.headers));
@@ -30,7 +31,7 @@ export function signIn (email, password) {
 export function signUp (email, password, passwordConfirmation) {
     return (dispatch) => {
         dispatch(pendingValidateToken());
-        return axios.post(Url + 'auth', {
+        return axios.post(Url + AuthPath, {
             email: email,
             password: password,
             password_confirmation: passwordConfirmation,
@@ -49,7 +50,7 @@ export function signUp (email, password, passwordConfirmation) {
 
 export function signOut () {
     return (dispatch, getState) => {
-        return axios.delete(Url + 'auth/sign_out', {headers: getState().header})
+        return axios.delete(Url + AuthPath + '/sign_out', {headers: getState().header})
             .then((response) => {
                 if (response.status === 200) {
                     Cookies.remove('auth_token');
@@ -69,7 +70,7 @@ export function validateToken () {
         dispatch(pendingValidateToken());
         if (headers) {
             dispatch(updateHeaderClient(headers));
-            return axios.get(Url + 'auth/validate_token', {headers: headers})
+            return axios.get(Url + AuthPath + '/validate_token', {headers: headers})
                 .then((response) => {
                     if (response.status === 200 || response.status === 304) {
                         dispatch(updateHeaderClient(response.headers));
