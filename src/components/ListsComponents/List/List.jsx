@@ -75,7 +75,7 @@ class List extends Component {
                     </button>
                 </div>
                 <div className="button-delete-wrap">
-                    <button onClick={this.handleDeleteListClick}>
+                    <button className="button-delete" onClick={this.handleDeleteListClick}>
                         <FontAwesome
                             name='trash'
                         />
