@@ -41,11 +41,10 @@ describe('List', () => {
         expect(component.find(AddTask).length).toEqual(1);
         expect(component.find(Tasks).length).toEqual(1);
     });
-    test('should render itself with tasks', () => {
+    test('should render itself with edit form', () => {
         const store = configureStore(initialStateOneTask);
         const component = shallowWithStore(<List list={testList} deleteList={() => {}} updateList={() => {}} getTasks={() => {}}/>, store);
-        component.find('.button-edit-wrap').find('button').simulate('click');
-        expect(component.find('.list-header').length).toEqual(1);
+        component.find('.button-update').simulate('click');
         expect(component.find(EditForm).length).toEqual(1);
     });
 });

@@ -18,8 +18,8 @@ class List extends Component {
     componentWillMount () {
         this.props.getTasks(this.props.list.id);
     }
-    onUpdating = (isUpdating) => {
-        this.setState({isUpdating: isUpdating});
+    onUpdating = () => {
+        this.setState({isUpdating: true});
     };
     handleSaveNewLabelClick = (value) => {
         this.props.updateList(this.props.list.id, value).then(() => {
@@ -68,7 +68,7 @@ class List extends Component {
             </div>
             <div className="right-area">
                 <div className="button-edit-wrap">
-                    <button onClick={this.onUpdating}>
+                    <button className="button-update" onClick={this.onUpdating}>
                         <FontAwesome
                             name='pencil'
                         />
