@@ -1,6 +1,6 @@
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-15';
-import EditForm from '../src/components/Forms/EditForm/EditForm';
+import EditForm from '../../src/components/Forms/EditForm/EditForm';
 import React from 'react';
 import toJson from 'enzyme-to-json';
 
