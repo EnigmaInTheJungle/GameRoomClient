@@ -1,0 +1,9 @@
+.info {
+    display: block;
+    border: 1px solid forestgreen;
+    height: 50%;
+    .info-tabs {
+        display: flex;
+        justify-content: space-between;
+    }
+}

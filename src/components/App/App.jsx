@@ -1,14 +1,10 @@
 import './App.scss';
 import React, { Component } from 'react';
-import {Route, withRouter} from 'react-router-dom';
-import AuthRoute from '../User/AuthRoute';
 import {connect} from 'react-redux';
-import Header from '../Header/Header';
-import Lists from '../ListsComponents/Lists/Lists';
 import PropTypes from 'prop-types';
-import SignIn from '../User/SignIn';
-import SignUp from '../User/SignUp';
 import {validateToken} from '../../redux/actions/userActions';
+import Window from '../Window/Window';
+import {withRouter} from 'react-router-dom';
 
 class App extends Component {
     constructor (props) {
@@ -20,10 +16,7 @@ class App extends Component {
     render () {
         return (
             <div className='App'>
-                <Header isSignedIn={this.props.isSignedIn}/>
-                <Route path="/sign_up" component={SignUp} />
-                <Route path="/sign_in" component={SignIn} />
-                <AuthRoute path="/" component={Lists} />
+                <Window/>
             </div>
         );
     }
